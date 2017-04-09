@@ -1,19 +1,21 @@
 package com.univer.quanthash;
 
-import java.util.List;
-
+import java.util.Set;
 /**
  * Created by ASUS-PC on 30.03.2017.
  */
 public class DeltaFunction {
 
-    public static Double deltaFunction(List<Integer> list, Integer setSize) {
+    public static Double deltaFunction(Set<Integer> set) {
         Double resultSum = 0d;
+        int setSize = set.size();
 
-        for (Integer integer : list) {
+
+
+        for (Integer integer : set) {
             resultSum += expFunction(integer, setSize);
         }
-        resultSum = resultSum/list.size();
+        resultSum = resultSum/ set.size();
 
         return resultSum;
     }
