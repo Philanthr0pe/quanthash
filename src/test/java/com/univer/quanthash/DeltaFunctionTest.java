@@ -26,7 +26,7 @@ public class DeltaFunctionTest {
         for (int i = 0; i < setSize; i++) {
             integers[i] = i;
         }
-        Double expected = 1.479679754500628E37;
+        Double expected = 0.06267285198174172;
         Double functionValue = deltaFunction.deltaFunction(integers);
         System.out.println(functionValue);
         assertEquals(expected, functionValue);
