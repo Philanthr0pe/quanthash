@@ -1,6 +1,7 @@
 package com.univer.quanthash.random;
 
 import com.univer.quanthash.DeltaFunction;
+import com.univer.quanthash.models.DeltaModel;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,8 +28,8 @@ public class RandomAlgorithmTest {
         int q = 4;
         int d = 2;
 
-        Set<Double> doubles = randomAlgorithm.randomDelta(q, d);
-        for (Double aDouble : doubles) {
+        Set<DeltaModel> doubles = randomAlgorithm.randomDelta(q, d);
+        for (DeltaModel aDouble : doubles) {
             System.out.println(aDouble);
         }
 

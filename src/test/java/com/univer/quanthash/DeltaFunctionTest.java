@@ -1,11 +1,13 @@
 package com.univer.quanthash;
 
+import com.univer.quanthash.models.DeltaModel;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashSet;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by ASUS-PC on 30.03.2017.
@@ -27,9 +29,10 @@ public class DeltaFunctionTest {
             integers[i] = i;
         }
         Double expected = 0.06267285198174172;
-        Double functionValue = deltaFunction.deltaFunction(integers);
+        int[] array = {7,7,6,7};
+        DeltaModel functionValue = deltaFunction.deltaFunction(array);
         System.out.println(functionValue);
-        assertEquals(expected, functionValue);
+        assertNotNull(functionValue);
     }
 
 }

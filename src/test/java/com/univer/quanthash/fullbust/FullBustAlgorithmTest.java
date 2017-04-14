@@ -1,5 +1,6 @@
 package com.univer.quanthash.fullbust;
 
+import com.univer.quanthash.models.DeltaModel;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -39,9 +40,9 @@ public class FullBustAlgorithmTest {
     public void setOfDeltaFullBust() {
         int q = 4;
         int d = 2;
-        Set<Double> sets = fullBustAlgorithm.setOfDeltaFullBust(q, d);
+        Set<DeltaModel> sets = fullBustAlgorithm.setOfDeltaFullBust(q, d);
 
-        for (Double set : sets) {
+        for (DeltaModel set : sets) {
             System.out.println(set);
         }
 

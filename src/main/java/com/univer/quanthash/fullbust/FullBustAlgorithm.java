@@ -24,15 +24,12 @@ public class FullBustAlgorithm {
         HashSet<DeltaModel> hashSet = new HashSet<>();
 
         Set<int[]> ints = generateCombinations(q, d);
-
         for (int[] anInt : ints) {
             hashSet.add(deltaFunction.deltaFunction(anInt));
         }
 
         return hashSet;
     }
-
-
 
     public Set<int[]> generateCombinations(int q, int d) {
         HashSet<int[]> intSet = new HashSet<int[]>();
@@ -59,5 +56,4 @@ public class FullBustAlgorithm {
 
         return result;
     }
-
 }
