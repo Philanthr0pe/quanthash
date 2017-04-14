@@ -1,5 +1,7 @@
 package com.univer.quanthash;
 
+import com.univer.quanthash.models.DeltaModel;
+
 import java.util.HashSet;
 import java.util.Set;
 /**
@@ -7,7 +9,7 @@ import java.util.Set;
  */
 public class DeltaFunction {
 
-    public static Double deltaFunction(int[] set) {
+    public static DeltaModel deltaFunction(int[] set) {
         Double resultSum = 0d;
         int setSize = set.length;
 
@@ -16,15 +18,15 @@ public class DeltaFunction {
         }
         resultSum = resultSum/ set.length;
 
-        return resultSum;
+        return new DeltaModel(set, resultSum);
     }
 
-    public static Set<Double> deltaFunctionForSet(Set<int[]> ints) {
-        HashSet<Double> doubles = new HashSet<>(ints.size());
+    public static Set<DeltaModel> deltaFunctionForSet(Set<int[]> ints) {
+        HashSet<DeltaModel> deltaModels = new HashSet<>(ints.size());
         for (int[] anInt : ints) {
-            doubles.add(deltaFunction(anInt));
+            deltaModels.add(deltaFunction(anInt));
         }
-        return doubles;
+        return deltaModels;
     }
 
     private static Double expFunction(Integer integer, Integer setSize) {

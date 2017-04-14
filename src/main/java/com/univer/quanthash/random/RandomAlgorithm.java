@@ -25,13 +25,11 @@ public class RandomAlgorithm {
         deltaFunction = new DeltaFunction();
     }
 
-    public Set<Double> randomDelta(int q, int d) {
-        HashSet<DeltaModel> result = new HashSet<>();
-
+    public Set<DeltaModel> randomDelta(int q, int d) {
         Set<int[]> ints = generateRandomArrs(q, d, size);
-        Set<Double> doubles = deltaFunction.deltaFunctionForSet(ints);
+        Set<DeltaModel> deltaModels = deltaFunction.deltaFunctionForSet(ints);
 
-        return doubles;
+        return deltaModels;
     }
 
     public Set<int[]> generateRandomArrs(int q, int d, int size) {
