@@ -1,6 +1,7 @@
 package com.univer.quanthash.fullbust;
 
 import com.univer.quanthash.DeltaFunction;
+import com.univer.quanthash.models.DeltaModel;
 import org.apache.commons.math3.util.Combinations;
 import org.apache.commons.math3.util.CombinatoricsUtils;
 
@@ -19,8 +20,8 @@ public class FullBustAlgorithm {
         deltaFunction = new DeltaFunction();
     }
 
-    public Set<Double> setOfDeltaFullBust(int q, int d) {
-        HashSet<Double> hashSet = new HashSet<>();
+    public HashSet<DeltaModel> setOfDeltaFullBust(int q, int d) {
+        HashSet<DeltaModel> hashSet = new HashSet<>();
 
         Set<int[]> ints = generateCombinations(q, d);
 
