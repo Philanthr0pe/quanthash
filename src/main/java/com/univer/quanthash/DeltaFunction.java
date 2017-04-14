@@ -30,7 +30,7 @@ public class DeltaFunction {
     }
 
     private static Double expFunction(Integer integer, Integer setSize) {
-        Double expResult = (-integer.intValue()) * 2 * (setSize-1) * integer.intValue() * Math.PI;
+        Double expResult = (-1) * 2 * (setSize-1) * integer.intValue() * Math.PI;
         expResult /= setSize;
         expResult = Math.exp(expResult);
         return expResult;
