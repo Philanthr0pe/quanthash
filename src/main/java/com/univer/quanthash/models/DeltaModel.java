@@ -1,11 +1,25 @@
 package com.univer.quanthash.models;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import java.util.Arrays;
+
 /**
  * Created by Vladislav on 10-Apr-17.
  */
+
+@Entity
 public class DeltaModel {
-    int[] array;
-    double delta;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    private int[] array;
+    private double delta;
+
+    protected DeltaModel() {}
 
     public DeltaModel(int[] array, double delta) {
         this.array = array;
@@ -18,5 +32,14 @@ public class DeltaModel {
 
     public double getDelta() {
         return delta;
+    }
+
+    @Override
+    public String toString() {
+        return "DeltaModel{" +
+                "id=" + id +
+                ", array=" + Arrays.toString(array) +
+                ", delta=" + delta +
+                '}';
     }
 }
