@@ -12,12 +12,12 @@ public class BeesAlgorithmTest {
 
     @Before
     public void setUp() throws Exception {
-        beesAlgorithm = new BeesAlgorithm(10);
+        beesAlgorithm = new BeesAlgorithm(10, 20);
     }
 
     @Test
     public void functionTest() {
-        beesAlgorithm.function(8, 2);
+        beesAlgorithm.function(8, 4);
     }
 
 }

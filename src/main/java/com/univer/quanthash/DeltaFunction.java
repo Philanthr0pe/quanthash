@@ -12,9 +12,9 @@ public class DeltaFunction {
     public static DeltaModel deltaFunction(int[] set) {
         Double resultSum = 0d;
         int setSize = set.length;
-
-        for (Integer integer : set) {
-            resultSum += expFunction(integer, setSize);
+        int i = 1;
+        for(Integer integer : set) {
+            resultSum += expFunction(integer, i++, setSize);
         }
         resultSum = resultSum/ set.length;
 
@@ -29,8 +29,8 @@ public class DeltaFunction {
         return deltaModels;
     }
 
-    private static Double expFunction(Integer integer, Integer setSize) {
-        Double expResult = (-1) * 2 * (setSize-1) * integer.intValue() * Math.PI;
+    private static Double expFunction(Integer integer, Integer number, Integer setSize) {
+        Double expResult = (-number) * 2 * (setSize-1) * integer.intValue() * Math.PI;
         expResult /= setSize;
         expResult = Math.exp(expResult);
         return expResult;

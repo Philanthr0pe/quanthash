@@ -11,7 +11,7 @@ import java.util.Arrays;
  */
 
 @Entity
-public class DeltaModel {
+public class DeltaModel implements Comparable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -41,5 +41,12 @@ public class DeltaModel {
                 ", array=" + Arrays.toString(array) +
                 ", delta=" + delta +
                 '}';
+    }
+
+
+    @Override
+    public int compareTo(Object o) {
+        DeltaModel o1 = (DeltaModel) o;
+        return Double.compare(this.getDelta(), o1.getDelta());
     }
 }
