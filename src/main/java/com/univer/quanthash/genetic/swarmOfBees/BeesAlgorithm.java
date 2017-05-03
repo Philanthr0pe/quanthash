@@ -47,4 +47,6 @@ public class BeesAlgorithm {
             System.out.println(collectOfDeltaModel);
         }
     }
+
+
 }
