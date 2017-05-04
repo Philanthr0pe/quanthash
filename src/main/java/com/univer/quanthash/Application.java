@@ -32,6 +32,8 @@ public class Application {
     public CommandLineRunner demo(DeltaRepository repository) {
         return (args) -> {
 
+            DeltaFunction.q = 16;
+
             RandomAlgorithm randomAlgorithm = new RandomAlgorithm(100);
             FullBustAlgorithm fullBustAlgorithm = new FullBustAlgorithm();
             Set<DeltaModel> deltaModelsRand = randomAlgorithm.randomDelta(32, 8);
@@ -46,6 +48,8 @@ public class Application {
             System.out.println("minFull: " + deltaModel1);
 
             System.out.println("minRand: " + minDeltaModel);
+
+
 
             new BeesAlgorithm(1000, 1000).function(32, 8);
         };
