@@ -1,11 +1,12 @@
 package com.univer.quanthash.fullbust;
 
 import com.univer.quanthash.DeltaFunction;
+import com.univer.quanthash.dao.DeltaRepository;
 import com.univer.quanthash.models.DeltaModel;
 import org.apache.commons.math3.util.Combinations;
 import org.apache.commons.math3.util.CombinatoricsUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,6 +17,9 @@ public class FullBustAlgorithm {
 
     private DeltaFunction deltaFunction;
 
+    @Autowired
+    DeltaRepository deltaRepository;
+
     public FullBustAlgorithm() {
         deltaFunction = new DeltaFunction();
     }
@@ -24,8 +28,16 @@ public class FullBustAlgorithm {
         HashSet<DeltaModel> hashSet = new HashSet<>();
 
         Set<int[]> ints = generateCombinations(q, d);
+        int count = 1000;
+        int count1 = 0;
+        double min = 1.0;
         for (int[] anInt : ints) {
-            hashSet.add(deltaFunction.deltaFunction(anInt));
+            DeltaModel deltaModel = deltaFunction.deltaFunction(anInt);
+            hashSet.add(deltaModel);
+            if (deltaModel.getDelta() < min) {
+                System.out.println(deltaModel);
+                min = deltaModel.getDelta();
+            }
         }
 
         return hashSet;
