@@ -78,6 +78,9 @@ public class BeesAlgorithm {
                     countOfBestAreas,
                     countOfWorstAreas + countOfBestAreas);
         }
+        System.out.println(deltaModelList.get(0));
+        System.out.println(deltaModelList.get(1));
+
         return deltaModelList.get(0);
     }
 

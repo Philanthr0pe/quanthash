@@ -9,16 +9,30 @@ import java.util.Set;
  */
 public class DeltaFunction {
 
+    public static int q;
+
     public static DeltaModel deltaFunction(int[] set) {
         Double resultSum = 0d;
-        int setSize = set.length;
+        int setSize = q;
         int i = 1;
-        for(Integer integer : set) {
-            resultSum += expFunction(integer, i++, setSize);
-        }
-        resultSum = resultSum/ set.length;
+        double max = 0.0;
 
-        return new DeltaModel(set, resultSum);
+        for (int j = 1; j < q ; j++) {
+            resultSum = 0.0;
+            for(Integer integer : set) {
+                resultSum += expFunction(integer, i++, setSize, j);
+            }
+            resultSum = resultSum/ set.length;
+            resultSum = Math.abs(resultSum);
+        //    System.out.println(resultSum);
+            if (max < resultSum) {
+                max = resultSum;
+            }
+        }
+
+
+
+        return new DeltaModel(set, max);
     }
 
     public static Set<DeltaModel> deltaFunctionForSet(Set<int[]> ints) {
@@ -29,12 +43,13 @@ public class DeltaFunction {
         return deltaModels;
     }
 
-    private static Double expFunction(Integer integer, Integer number, Integer setSize) {
-        Double expResult = (-number) * 2 * (setSize-1) * integer.intValue() * Math.PI;
+    private static Double expFunction(Integer integer, Integer number, Integer setSize, int x) {
+        Double expResult = (-number) * 2 * x * integer.intValue() * Math.PI;
         expResult /= setSize;
         expResult = Math.exp(expResult);
         return expResult;
     }
+
 
 
 
