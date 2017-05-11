@@ -36,7 +36,7 @@ public class Application {
 
             RandomAlgorithm randomAlgorithm = new RandomAlgorithm(100);
             FullBustAlgorithm fullBustAlgorithm = new FullBustAlgorithm();
-            Set<DeltaModel> deltaModelsRand = randomAlgorithm.randomDelta(32, 8);
+            Set<DeltaModel> deltaModelsRand = randomAlgorithm.randomDelta(16, 8);
             HashSet<DeltaModel> deltaModelsFull = fullBustAlgorithm.setOfDeltaFullBust(16, 8);
 
             DeltaModel minDeltaModel = deltaModelsRand.stream().min((o1, o2) -> Double.compare(o1.getDelta(), o2.getDelta())).get();
@@ -51,9 +51,7 @@ public class Application {
 
             System.out.println("minRand: " + minDeltaModel);
 
-
-
-            new BeesAlgorithm(1000, 1000).function(32, 8);
+            new BeesAlgorithm(1000, 1000).function(16, 8);
         };
     }
 

@@ -32,6 +32,9 @@ public class Scope {
             int max = array[i] + scope;
             min = min < globalMin ? globalMin : min;
             max = max > globalMax ? globalMax : max;
+            if (max == min) {
+                max++;
+            }
             //System.out.println(min+ "," + max);
             if (min > max) {
                 maxArray[i] = min;

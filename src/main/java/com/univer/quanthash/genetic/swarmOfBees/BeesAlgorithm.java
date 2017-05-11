@@ -5,6 +5,8 @@ import com.univer.quanthash.models.Area;
 import com.univer.quanthash.models.DeltaModel;
 import com.univer.quanthash.models.Scope;
 import com.univer.quanthash.random.RandomAlgorithm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashSet;
 import java.util.List;
@@ -15,6 +17,8 @@ import java.util.stream.Collectors;
  * Created by Vladislav on 14-Apr-17.
  */
 public class BeesAlgorithm {
+
+    private static final Logger log = LoggerFactory.getLogger(BeesAlgorithm.class);
 
     private int startCountOfAreas;
     private int countOfBees;
@@ -28,14 +32,13 @@ public class BeesAlgorithm {
     private Set<List<DeltaModel>> bests;
 
     public BeesAlgorithm(int countOfAreas, int iterateCount) {
-
         startCountOfAreas = countOfAreas;
-        countOfBees = 100;
+        countOfBees = countOfAreas >= 1000 ? (int)(0.02 * countOfAreas) : 10;
         countOfBeesForBest = (int) (0.5 * countOfBees);
         countOfBeesForWorst = (int) (0.2 * countOfBees);
         countOfBestAreas = (int) (0.2 * countOfAreas);
         countOfWorstAreas = (int) (0.3 * countOfAreas);
-        sizeOfArea = 2;
+        sizeOfArea = (int) 0.001 * countOfAreas;
         deltaFunction = new DeltaFunction();
         this.iterateCount = iterateCount;
         this.bests = new HashSet<>();
@@ -78,10 +81,28 @@ public class BeesAlgorithm {
             deltaModelsNorm = separateSetOfDeltas(deltaModelList,
                     countOfBestAreas,
                     countOfWorstAreas + countOfBestAreas);
+            resize(iterateCount);
         }
         System.out.println(deltaModelList.get(1));
 
         return deltaModelList.get(0);
+    }
+
+    private void resize(int iterateCount) {
+        if (iterateCount % 100 != 0) {
+            if (iterateCount <= 100) {
+                sizeOfArea = 1;
+            }
+            return;
+        }
+        countOfBees = (int) (countOfBees * 0.8);
+        countOfBeesForBest = (int) (0.5 * countOfBees);
+        countOfBeesForWorst = (int) (0.2 * countOfBees);
+        countOfBestAreas = (int) (0.8 * countOfBestAreas);
+        countOfWorstAreas = (int) (0.8 * countOfWorstAreas);
+        sizeOfArea = sizeOfArea == 1 ? 1 : sizeOfArea-1;
+        deltaFunction = new DeltaFunction();
+
     }
 
     private Set<DeltaModel> separateSetOfDeltas(List<DeltaModel> deltaModels, int start, int end) {
