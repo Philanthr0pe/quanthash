@@ -19,8 +19,8 @@ public class DeltaFunction {
 
         for (int j = 1; j < q ; j++) {
             resultSum = 0.0;
-            for(Integer integer : set) {
-                resultSum += expFunction(integer, i++, setSize, j);
+            for (int k = 0; k < set.length; k++) {
+                resultSum += expFunction(set[k], k+1, q, j);
             }
             resultSum = resultSum/ set.length;
             resultSum = Math.abs(resultSum);
@@ -29,9 +29,6 @@ public class DeltaFunction {
                 max = resultSum;
             }
         }
-
-
-
         return new DeltaModel(set, max);
     }
 
@@ -45,8 +42,9 @@ public class DeltaFunction {
 
     private static Double expFunction(Integer integer, Integer number, Integer setSize, int x) {
         Double expResult = (-number) * 2 * x * integer.intValue() * Math.PI;
-        expResult /= setSize;
+        expResult = expResult / setSize;
         expResult = Math.exp(expResult);
+        //expResult = Math.cos(expResult);
         return expResult;
     }
 

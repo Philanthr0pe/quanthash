@@ -5,31 +5,29 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
 
 /**
  * Created by ASUS-PC on 06.04.2017.
  */
-public class FullBustAlgorithmTest {
+public class FullBustAlgorithmImplTest {
 
-    FullBustAlgorithm fullBustAlgorithm;
+    FullBustAlgorithmImpl fullBustAlgorithmImpl;
 
     @Before
     public void setUp() throws Exception {
-        fullBustAlgorithm = new FullBustAlgorithm();
+        fullBustAlgorithmImpl = new FullBustAlgorithmImpl();
     }
 
     @Test
     public void setSize() throws Exception {
         int q = 4;
         int d = 2;
-        long l = fullBustAlgorithm.sizeOfSet(q, d);
+        long l = fullBustAlgorithmImpl.sizeOfSet(q, d);
         System.out.println(l);
         assertEquals(10, l);
 
@@ -40,7 +38,7 @@ public class FullBustAlgorithmTest {
     public void setOfDeltaFullBust() {
         int q = 4;
         int d = 2;
-        Set<DeltaModel> sets = fullBustAlgorithm.setOfDeltaFullBust(q, d);
+        Set<DeltaModel> sets = fullBustAlgorithmImpl.setOfDeltaFullBust(q, d);
 
         for (DeltaModel set : sets) {
             System.out.println(set);
@@ -51,9 +49,10 @@ public class FullBustAlgorithmTest {
 
     @Test
     public void generateCombinations() {
-        int q = 4;
-        int d = 2;
-        Set<int[]> ints = fullBustAlgorithm.generateCombinations(q, d);
+        int q = 128;
+        int d = 16;
+        Set<int[]> ints = fullBustAlgorithmImpl.generateCombinations(q, d);
+        System.out.println("size = " + ints.size());
         for (int[] anInt : ints) {
             System.out.println(Arrays.toString(anInt));
         }
