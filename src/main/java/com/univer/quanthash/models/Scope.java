@@ -20,12 +20,6 @@ public class Scope {
     }
 
     public Scope(int min, int max) {
-        if (max > globalMax) {
-            max = globalMax - 1;
-        }
-        if (min < globalMin) {
-            min = globalMin + 1;
-        }
         this.min = min;
         this.max = max;
     }
@@ -36,8 +30,17 @@ public class Scope {
         for (int i = 0; i < array.length; i++) {
             int min = array[i] - scope;
             int max = array[i] + scope;
-            minArray[i] = min < globalMin ? globalMin : min;
-            maxArray[i] = max > globalMax ? globalMax : max;
+            min = min < globalMin ? globalMin : min;
+            max = max > globalMax ? globalMax : max;
+            //System.out.println(min+ "," + max);
+            if (min > max) {
+                maxArray[i] = min;
+                minArray[i] = max;
+            } else {
+                maxArray[i] = max;
+                minArray[i] = min;
+            }
+
         }
         Set<DeltaModel> deltaModels = new HashSet<>(countOfBees);
         for (int i = 0; i < countOfBees; i++) {

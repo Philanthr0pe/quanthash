@@ -35,15 +35,15 @@ public class BeesAlgorithm {
         countOfBeesForWorst = (int) (0.2 * countOfBees);
         countOfBestAreas = (int) (0.2 * countOfAreas);
         countOfWorstAreas = (int) (0.3 * countOfAreas);
-        sizeOfArea = 1;
+        sizeOfArea = 2;
         deltaFunction = new DeltaFunction();
         this.iterateCount = iterateCount;
         this.bests = new HashSet<>();
     }
 
     public void function(int q, int d) {
-        Scope.globalMin = -1;
-        Scope.globalMax = q;
+        Scope.globalMin = 0;
+        Scope.globalMax = q-1;
         Set<int[]> ints = new RandomAlgorithm().generateRandomArrs(q, d, this.startCountOfAreas);
         System.out.println(ints.size());
         Set<DeltaModel> deltaModels = deltaFunction.deltaFunctionForSet(ints);
@@ -65,7 +65,7 @@ public class BeesAlgorithm {
         Set<DeltaModel> deltaModelsBest = separateSetOfDeltas(deltaModelList, 0, countOfBestAreas);
         Set<DeltaModel> deltaModelsNorm = separateSetOfDeltas(deltaModelList, countOfBestAreas, countOfWorstAreas + countOfBestAreas);
 
-        while (iterateCount-- == 0) {
+        while (iterateCount-- != 0) {
             Set<DeltaModel> scopesAndGetDelta = new Area(countOfBeesForBest, deltaModelsBest, sizeOfArea)
                     .createScopesAndGetDelta();
             scopesAndGetDelta.addAll(new Area(countOfBeesForWorst, deltaModelsNorm, sizeOfArea)
@@ -74,11 +74,11 @@ public class BeesAlgorithm {
             deltaModelsBest = separateSetOfDeltas(deltaModelList,
                     0,
                     countOfBestAreas);
+           // System.out.println(deltaModelsBest.stream().min(DeltaModel::compareTo).get());
             deltaModelsNorm = separateSetOfDeltas(deltaModelList,
                     countOfBestAreas,
                     countOfWorstAreas + countOfBestAreas);
         }
-        System.out.println(deltaModelList.get(0));
         System.out.println(deltaModelList.get(1));
 
         return deltaModelList.get(0);

@@ -37,7 +37,7 @@ public class Application {
             RandomAlgorithm randomAlgorithm = new RandomAlgorithm(100);
             FullBustAlgorithm fullBustAlgorithm = new FullBustAlgorithm();
             Set<DeltaModel> deltaModelsRand = randomAlgorithm.randomDelta(32, 8);
-            HashSet<DeltaModel> deltaModelsFull = fullBustAlgorithm.setOfDeltaFullBust(32, 8);
+            HashSet<DeltaModel> deltaModelsFull = fullBustAlgorithm.setOfDeltaFullBust(16, 8);
 
             DeltaModel minDeltaModel = deltaModelsRand.stream().min((o1, o2) -> Double.compare(o1.getDelta(), o2.getDelta())).get();
             DeltaModel deltaModel1 = deltaModelsFull.stream().min((o1, o2) -> Double.compare(o1.getDelta(), o2.getDelta())).get();
@@ -45,6 +45,8 @@ public class Application {
             repository.save(deltaModelsRand);
             repository.save(deltaModelsFull);
 
+
+            repository.findAll().forEach(System.out::println);
             System.out.println("minFull: " + deltaModel1);
 
             System.out.println("minRand: " + minDeltaModel);
