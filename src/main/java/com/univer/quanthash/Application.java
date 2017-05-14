@@ -14,6 +14,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -26,6 +27,9 @@ public class Application {
 
     @Autowired
     DeltaRepository repository;
+
+    @Autowired
+    BeesAlgorithm beesAlgorithm;
 
     @Autowired
     FullBustAlgorithm fullBustAlgorithm;
@@ -48,12 +52,16 @@ public class Application {
             repository.save(deltaModelsRand);
             System.out.println("minRand: " + minDeltaModel);
 
-            new BeesAlgorithm(10000, 10000).function(32, 16);
+            beesAlgorithm.getInstance(10000, 10000)
+                    .function(64, 16);
 
-            HashSet<DeltaModel> deltaModelsFull = fullBustAlgorithm.setOfDeltaFullBust(32, 16);
+            List<DeltaModel> all = repository.findAll();
+
+            HashSet<DeltaModel> deltaModelsFull = fullBustAlgorithm.setOfDeltaFullBust(16, 8);
 
 
-            DeltaModel deltaModel1 = deltaModelsFull.stream().min((o1, o2) -> Double.compare(o1.getDelta(), o2.getDelta())).get();
+            DeltaModel deltaModel1 = deltaModelsFull.stream()
+                    .min((o1, o2) -> Double.compare(o1.getDelta(), o2.getDelta())).get();
 
 
             repository.save(deltaModelsFull);

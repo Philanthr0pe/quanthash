@@ -41,10 +41,9 @@ public class DeltaFunction {
     }
 
     private static Double expFunction(Integer integer, Integer number, Integer setSize, int x) {
-        Double expResult = (-number) * 2 * x * integer.intValue() * Math.PI;
+        Double expResult = 2 * x * integer.intValue() * Math.PI;
         expResult = expResult / setSize;
-        expResult = Math.exp(expResult);
-        //expResult = Math.cos(expResult);
+        expResult = Math.cos(expResult);
         return expResult;
     }
 

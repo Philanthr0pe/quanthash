@@ -8,16 +8,16 @@ import org.junit.Test;
  */
 public class BeesAlgorithmTest {
 
-    BeesAlgorithm beesAlgorithm;
+    BeesAlgorithm beesAlgorithmImpl;
 
     @Before
     public void setUp() throws Exception {
-        beesAlgorithm = new BeesAlgorithm(10, 20);
+        beesAlgorithmImpl = new BeesAlgorithmImpl().getInstance(100, 100);
     }
 
     @Test
     public void functionTest() {
-        beesAlgorithm.function(8, 4);
+        beesAlgorithmImpl.function(8, 4);
     }
 
 }

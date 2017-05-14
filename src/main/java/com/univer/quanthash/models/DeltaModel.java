@@ -18,12 +18,21 @@ public class DeltaModel implements Comparable {
     private Long id;
     private int[] array;
     private double delta;
+    private String type;
 
     protected DeltaModel() {}
 
     public DeltaModel(int[] array, double delta) {
         this.array = array;
         this.delta = delta;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public int[] getArray() {
