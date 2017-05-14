@@ -1,5 +1,6 @@
 package com.univer.quanthash.genetic.swarmOfBees;
 
+import com.univer.quanthash.DeltaFunction;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -8,16 +9,17 @@ import org.junit.Test;
  */
 public class BeesAlgorithmTest {
 
-    BeesAlgorithm beesAlgorithmImpl;
+    BeesAlgorithm beesAlgorithm;
 
     @Before
     public void setUp() throws Exception {
-        beesAlgorithmImpl = new BeesAlgorithmImpl().getInstance(100, 100);
+        DeltaFunction.q = 8;
+        beesAlgorithm = new BeesAlgorithm(100, 100);
     }
 
     @Test
     public void functionTest() {
-        beesAlgorithmImpl.function(8, 4);
+        beesAlgorithm.function(8, 4);
     }
 
 }

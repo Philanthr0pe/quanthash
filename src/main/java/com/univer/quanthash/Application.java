@@ -7,14 +7,12 @@ import com.univer.quanthash.models.DeltaModel;
 import com.univer.quanthash.random.RandomAlgorithm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 
@@ -24,16 +22,6 @@ import java.util.Set;
 @SpringBootApplication
 public class Application {
 
-
-    @Autowired
-    DeltaRepository repository;
-
-    @Autowired
-    BeesAlgorithm beesAlgorithm;
-
-    @Autowired
-    FullBustAlgorithm fullBustAlgorithm;
-
     private static final Logger log = LoggerFactory.getLogger(Application.class);
 
     public static void main(String[] args) {
@@ -41,32 +29,29 @@ public class Application {
     }
 
     @Bean
-    public CommandLineRunner demo() {
+    public CommandLineRunner demo(DeltaRepository repository) {
         return (args) -> {
 
             DeltaFunction.q = 16;
 
-            RandomAlgorithm randomAlgorithm = new RandomAlgorithm(1000);
-            Set<DeltaModel> deltaModelsRand = randomAlgorithm.randomDelta(32, 16);
-            DeltaModel minDeltaModel = deltaModelsRand.stream().min((o1, o2) -> Double.compare(o1.getDelta(), o2.getDelta())).get();
-            repository.save(deltaModelsRand);
-            System.out.println("minRand: " + minDeltaModel);
-
-            beesAlgorithm.getInstance(10000, 10000)
-                    .function(64, 16);
-
-            List<DeltaModel> all = repository.findAll();
-
+            RandomAlgorithm randomAlgorithm = new RandomAlgorithm(100);
+            FullBustAlgorithm fullBustAlgorithm = new FullBustAlgorithm();
+            Set<DeltaModel> deltaModelsRand = randomAlgorithm.randomDelta(16, 8);
             HashSet<DeltaModel> deltaModelsFull = fullBustAlgorithm.setOfDeltaFullBust(16, 8);
 
+            DeltaModel minDeltaModel = deltaModelsRand.stream().min((o1, o2) -> Double.compare(o1.getDelta(), o2.getDelta())).get();
+            DeltaModel deltaModel1 = deltaModelsFull.stream().min((o1, o2) -> Double.compare(o1.getDelta(), o2.getDelta())).get();
 
-            DeltaModel deltaModel1 = deltaModelsFull.stream()
-                    .min((o1, o2) -> Double.compare(o1.getDelta(), o2.getDelta())).get();
-
-
+            repository.save(deltaModelsRand);
             repository.save(deltaModelsFull);
 
+
+            repository.findAll().forEach(System.out::println);
             System.out.println("minFull: " + deltaModel1);
+
+            System.out.println("minRand: " + minDeltaModel);
+
+            new BeesAlgorithm(1000, 1000).function(16, 8);
         };
     }
 

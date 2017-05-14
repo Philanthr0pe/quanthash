@@ -11,7 +11,7 @@ public class Bee {
     private int[] maxArray;
     private int[] minArray;
 
-    public Bee(int[] maxArray, int[] minArray) {
+    public Bee(int[] minArray, int[] maxArray) {
         this.maxArray = maxArray;
         this.minArray = minArray;
     }
@@ -21,6 +21,7 @@ public class Bee {
         for (int i = 0; i < minArray.length; i++) {
             array[i] = new Random().ints(minArray[i], maxArray[i]).findFirst().getAsInt();
         }
+        //System.out.println("----------");
         return countDelta(array);
     }
 
