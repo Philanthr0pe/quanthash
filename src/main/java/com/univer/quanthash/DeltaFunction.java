@@ -2,10 +2,8 @@ package com.univer.quanthash;
 
 import com.univer.quanthash.models.DeltaModel;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by ASUS-PC on 30.03.2017.
@@ -36,11 +34,10 @@ public class DeltaFunction {
             }
         }
 
-        Collection<String> values = new ConcurrentHashMap<String, String>().values();
-
-
         return new DeltaModel(set, max);
     }
+
+
 
     public static Set<DeltaModel> deltaFunctionForSet(Set<int[]> ints) {
         HashSet<DeltaModel> deltaModels = new HashSet<>(ints.size());

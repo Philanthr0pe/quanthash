@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  * Created by Vladislav on 14-Apr-17.
  */
 @Service
-public class BeesAlgorithmImpl implements BeesAlgorithm{
+public class BeesAlgorithmImpl implements BeesAlgorithm {
 
     @Autowired
     DeltaRepository deltaRepository;
