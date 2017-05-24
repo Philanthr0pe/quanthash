@@ -11,6 +11,13 @@ import java.util.Set;
 public class DeltaFunction {
 
     public static int q;
+    private static double min = 10d;
+
+    public DeltaFunction(int q) {
+        this.q = q;
+    }
+
+    public DeltaFunction() {}
 
     public static DeltaModel deltaFunction(int[] set) {
         Double resultSumSin = 0d;
@@ -25,12 +32,25 @@ public class DeltaFunction {
             for(int i = 0; i< set.length; i++) {
                 resultSumSin += expFunctionSin(set[i], setSize, j);
                 resultSumCos += expFunctionCos(set[i], setSize, j);
+                if (i >= set.length / 2) {
+                    double sqrt = Math.sqrt(Math.pow(resultSumCos, 2) + Math.pow(resultSumSin, 2))/set.length;
+                    if (sqrt >= min) {
+                        resultSumSin = 2d;
+                        resultSumCos = 2d;
+                        break;
+                    }
+                }
             }
+            //resultSumSin /= set.length;
+            //resultSumCos /= set.length;
             resultSum = Math.sqrt(Math.pow(resultSumCos, 2) + Math.pow(resultSumSin, 2));
-            resultSum = resultSum/set.length;
-          //  System.out.println(resultSum);
+            resultSum /= set.length;
+            //System.out.println(resultSum);
             if (max < resultSum) {
                 max = resultSum;
+            }
+            if (resultSum < min) {
+                min = resultSum;
             }
         }
 

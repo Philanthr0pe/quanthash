@@ -23,8 +23,12 @@ public class ConstructiveAlgorithmImplTest {
 
     @Test
     public void function() throws Exception {
-        constructiveAlgorithm.function(8192, 0.5);
-        constructiveAlgorithm.function(8192, 0.4);
+        System.out.println(constructiveAlgorithm.function(1523, 0.5));
+        System.out.println(constructiveAlgorithm.function(9883, 0.4).getDelta());
+        /*System.out.println(constructiveAlgorithm.function(64, 0.3).getDelta());
+        System.out.println(constructiveAlgorithm.function(64, 0.2).getDelta());
+        System.out.println(constructiveAlgorithm.function(64, 0.1).getDelta());*/
+   //     System.out.println(constructiveAlgorithm.function(128, 0.01));
     }
 
     @Test

@@ -1,9 +1,6 @@
 package com.univer.quanthash.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Arrays;
 
 /**
@@ -11,6 +8,7 @@ import java.util.Arrays;
  */
 
 @Entity
+@Table(name = "Delta")
 public class DeltaModel implements Comparable {
 
     @Id

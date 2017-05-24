@@ -2,6 +2,7 @@ package com.univer.quanthash.random;
 
 import com.univer.quanthash.DeltaFunction;
 import com.univer.quanthash.models.DeltaModel;
+import org.apache.commons.math3.util.CombinatoricsUtils;
 
 import java.util.HashSet;
 import java.util.Random;
@@ -15,21 +16,36 @@ public class RandomAlgorithm {
     DeltaFunction deltaFunction;
     int size;
 
-    public RandomAlgorithm(int size) {
-        this.size = size;
-        deltaFunction = new DeltaFunction();
-    }
-
     public RandomAlgorithm() {
-        size = 100;
         deltaFunction = new DeltaFunction();
     }
 
-    public Set<DeltaModel> randomDelta(int q, int d) {
+    public DeltaModel randomDelta(int q, int d) {
+        size = sizeOfSet(q, d);
         Set<int[]> ints = generateRandomArrs(q, d, size);
-        Set<DeltaModel> deltaModels = deltaFunction.deltaFunctionForSet(ints);
+        deltaFunction = new DeltaFunction(q);
+        DeltaModel resultModel = null;
+        double min = 10d;
+        for (int[] anInt : ints) {
+            DeltaModel deltaModel = deltaFunction.deltaFunction(anInt);
+            if (min > deltaModel.getDelta()) {
+                resultModel = deltaModel;
+            }
+        }
+        return resultModel;
+    }
 
-        return deltaModels;
+    public int sizeOfSet(int q, int d) {
+        int f = q+d-1;
+        if (f > 20) {
+            return (int) (8000 * Math.log(f));
+        }
+        long factorialN = CombinatoricsUtils.factorial(f);
+        long factorialD = CombinatoricsUtils.factorial(d);
+        long factorialQ = CombinatoricsUtils.factorial(q-1);
+        long result = factorialN / (factorialD * factorialQ);
+        result /= 10;
+        return (int)result;
     }
 
     public Set<int[]> generateRandomArrs(int q, int d, int size) {

@@ -3,8 +3,9 @@ package com.univer.quanthash.fullbust;
 import com.univer.quanthash.DeltaFunction;
 import com.univer.quanthash.dao.DeltaRepository;
 import com.univer.quanthash.models.DeltaModel;
-import org.apache.commons.math3.util.Combinations;
-import org.apache.commons.math3.util.CombinatoricsUtils;
+import org.paukov.combinatorics.Factory;
+import org.paukov.combinatorics.Generator;
+import org.paukov.combinatorics.ICombinatoricsVector;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,48 +31,61 @@ public class FullBustAlgorithmImpl implements FullBustAlgorithm {
         HashSet<DeltaModel> hashSet = new HashSet<>();
 
 
-
-        Set<int[]> ints = generateCombinations(q, d);
+        Generator<Integer> iCombinatoricsVectors = generateCombinations(q, d);
         int count = 1000;
         int count1 = 0;
         double min = 1.0;
-        for (int[] anInt : ints) {
-            DeltaModel deltaModel = deltaFunction.deltaFunction(anInt);
+        for (ICombinatoricsVector<Integer> anInt : iCombinatoricsVectors) {
+            int[] vector = anInt.getVector().stream().mapToInt(i -> i).toArray();
+            DeltaModel deltaModel = new DeltaFunction(q).deltaFunction(vector);
             if (deltaModel.getDelta() < min) {
                 hashSet.add(deltaModel);
                 deltaRepository.save(deltaModel);
                 System.out.println(deltaModel);
                 min = deltaModel.getDelta();
+
             }
         }
-
         return hashSet;
     }
 
-    public Set<int[]> generateCombinations(int q, int d) {
+    public Generator<Integer> generateCombinations(int q, int d) {
+        Integer[] integers = new Integer[q];
+        for (int i = 0; i < q; i++) {
+            integers[i] = i+1;
+        }
+        ICombinatoricsVector<Integer> vector = Factory.createVector(integers);
+        Generator<Integer> multiCombinationGenerator = Factory.createMultiCombinationGenerator(vector, d);
 
 
-        HashSet<int[]> intSet = new HashSet<int[]>();
+        return multiCombinationGenerator;
+        /*HashSet<int[]> intSet = new HashSet<int[]>();
         Combinations ints = new Combinations(q, d);
         for (int i = 0; i < q; i++) {
             int[] array = new int[d];
             for (int j = 0; j < d; j++) {
                 array[j] = i;
             }
-        //    intSet.add(array);
+            intSet.add(array);
         }
         for (int[] anInt : ints) {
+            System.out.println(Arrays.toString(anInt));
             intSet.add(anInt);
         }
-        return intSet;
+        return intSet;*/
     }
 
-    public long sizeOfSet(int q, int d) {
+    public Set<int[]> generateCombinationsWithSize(int q, int d, int size) {
+
+        return new HashSet<>();
+    }
+
+ /*   public long sizeOfSet(int q, int d) {
         long factorialN = CombinatoricsUtils.factorial(q + d - 1);
         long factorialD = CombinatoricsUtils.factorial(d);
         long factorialQ = CombinatoricsUtils.factorial(q - 1);
         long result = factorialN / (factorialD * factorialQ);
 
         return result;
-    }
+    }*/
 }
