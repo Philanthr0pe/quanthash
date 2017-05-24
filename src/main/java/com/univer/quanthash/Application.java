@@ -51,7 +51,7 @@ public class Application {
 
             System.out.println("minRand: " + minDeltaModel);
 
-            new BeesAlgorithm(1000, 1000).function(16, 8);
+            new BeesAlgorithm(1000, 100).function(16, 8);
         };
     }
 

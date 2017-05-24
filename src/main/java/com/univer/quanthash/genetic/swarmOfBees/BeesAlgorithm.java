@@ -68,6 +68,7 @@ public class BeesAlgorithm {
         Set<DeltaModel> deltaModelsBest = separateSetOfDeltas(deltaModelList, 0, countOfBestAreas);
         Set<DeltaModel> deltaModelsNorm = separateSetOfDeltas(deltaModelList, countOfBestAreas, countOfWorstAreas + countOfBestAreas);
 
+        DeltaModel deltaModel = deltaModelList.get(0);
         while (iterateCount-- != 0) {
             Set<DeltaModel> scopesAndGetDelta = new Area(countOfBeesForBest, deltaModelsBest, sizeOfArea)
                     .createScopesAndGetDelta();
@@ -80,12 +81,15 @@ public class BeesAlgorithm {
            // System.out.println(deltaModelsBest.stream().min(DeltaModel::compareTo).get());
             deltaModelsNorm = separateSetOfDeltas(deltaModelList,
                     countOfBestAreas,
-                    countOfWorstAreas + countOfBestAreas);
+                    countOfWorstAreas + countOfBestAreas - 1);
             resize(iterateCount);
+            DeltaModel deltaModelTmp = deltaModelsBest.stream().min(DeltaModel::compareTo).get();
+            deltaModel = deltaModelTmp.compareTo(deltaModel) == -1 ? deltaModelTmp : deltaModel;
+            log.info("MinDelta: " + deltaModel);
         }
         System.out.println(deltaModelList.get(1));
 
-        return deltaModelList.get(0);
+        return deltaModel;
     }
 
     private void resize(int iterateCount) {
@@ -108,7 +112,12 @@ public class BeesAlgorithm {
     private Set<DeltaModel> separateSetOfDeltas(List<DeltaModel> deltaModels, int start, int end) {
         Set<DeltaModel> result = new HashSet<>();
         for (int i = start; i < end; i++) {
-            result.add(deltaModels.get(i));
+            //log.info(" start= " + start + "; end = " + end);
+            try {
+                result.add(deltaModels.get(i));
+            } catch (Exception e) {
+                log.error(" start= " + start + "; end = " + end, e);
+            }
         }
         return result;
     }
