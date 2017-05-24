@@ -14,7 +14,7 @@ public class BeesAlgorithmTest {
     @Before
     public void setUp() throws Exception {
         DeltaFunction.q = 8;
-        beesAlgorithm = new BeesAlgorithm(100, 100);
+        beesAlgorithm = new BeesAlgorithmImpl().getInstance(1000, 1000);
     }
 
     @Test

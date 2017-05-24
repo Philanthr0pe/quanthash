@@ -1,15 +1,13 @@
 package com.univer.quanthash.random;
 
-import com.univer.quanthash.DeltaFunction;
-import com.univer.quanthash.models.DeltaModel;
+import org.apache.commons.math3.util.CombinatoricsUtils;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.sql.Array;
 import java.util.Arrays;
 import java.util.Set;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by Vladislav on 10-Apr-17.
@@ -28,13 +26,19 @@ public class RandomAlgorithmTest {
         int q = 4;
         int d = 2;
 
-        Set<DeltaModel> doubles = randomAlgorithm.randomDelta(q, d);
-        for (DeltaModel aDouble : doubles) {
-            System.out.println(aDouble);
-        }
+    }
 
-        assertNotNull(doubles);
 
+
+    @Test
+    public void sizeOfSet() throws Exception {
+        int f = 20;
+        long factorialN = CombinatoricsUtils.factorial(f);
+        long factorialD = CombinatoricsUtils.factorial(4);
+        long factorialQ = CombinatoricsUtils.factorial(15);
+        long result = factorialN / (factorialD * factorialQ);
+        result /= 10;
+        System.out.println(result);
     }
 
     @Test

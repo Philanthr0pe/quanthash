@@ -2,10 +2,8 @@ package com.univer.quanthash;
 
 import com.univer.quanthash.models.DeltaModel;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by ASUS-PC on 30.03.2017.
@@ -13,6 +11,13 @@ import java.util.concurrent.ConcurrentHashMap;
 public class DeltaFunction {
 
     public static int q;
+    private static double min = 10d;
+
+    public DeltaFunction(int q) {
+        this.q = q;
+    }
+
+    public DeltaFunction() {}
 
     public static DeltaModel deltaFunction(int[] set) {
         Double resultSumSin = 0d;
@@ -27,20 +32,32 @@ public class DeltaFunction {
             for(int i = 0; i< set.length; i++) {
                 resultSumSin += expFunctionSin(set[i], setSize, j);
                 resultSumCos += expFunctionCos(set[i], setSize, j);
+                if (i >= set.length / 2) {
+                    double sqrt = Math.sqrt(Math.pow(resultSumCos, 2) + Math.pow(resultSumSin, 2))/set.length;
+                    if (sqrt >= min) {
+                        resultSumSin = 2d;
+                        resultSumCos = 2d;
+                        break;
+                    }
+                }
             }
+            //resultSumSin /= set.length;
+            //resultSumCos /= set.length;
             resultSum = Math.sqrt(Math.pow(resultSumCos, 2) + Math.pow(resultSumSin, 2));
-            resultSum = resultSum/set.length;
-          //  System.out.println(resultSum);
+            resultSum /= set.length;
+            //System.out.println(resultSum);
             if (max < resultSum) {
                 max = resultSum;
             }
+            if (resultSum < min) {
+                min = resultSum;
+            }
         }
-
-        Collection<String> values = new ConcurrentHashMap<String, String>().values();
-
 
         return new DeltaModel(set, max);
     }
+
+
 
     public static Set<DeltaModel> deltaFunctionForSet(Set<int[]> ints) {
         HashSet<DeltaModel> deltaModels = new HashSet<>(ints.size());

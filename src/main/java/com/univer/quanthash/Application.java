@@ -2,17 +2,18 @@ package com.univer.quanthash;
 
 import com.univer.quanthash.dao.DeltaRepository;
 import com.univer.quanthash.fullbust.FullBustAlgorithm;
-import com.univer.quanthash.genetic.swarmOfBees.BeesAlgorithm;
 import com.univer.quanthash.models.DeltaModel;
 import com.univer.quanthash.random.RandomAlgorithm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.util.HashSet;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.util.Set;
 
 
@@ -21,6 +22,10 @@ import java.util.Set;
  */
 @SpringBootApplication
 public class Application {
+
+    @Autowired
+    FullBustAlgorithm fullBustAlgorithm;
+
 
     private static final Logger log = LoggerFactory.getLogger(Application.class);
 
@@ -31,29 +36,44 @@ public class Application {
     @Bean
     public CommandLineRunner demo(DeltaRepository repository) {
         return (args) -> {
-
-            DeltaFunction.q = 16;
-
-            RandomAlgorithm randomAlgorithm = new RandomAlgorithm(100);
-            FullBustAlgorithm fullBustAlgorithm = new FullBustAlgorithm();
-            Set<DeltaModel> deltaModelsRand = randomAlgorithm.randomDelta(16, 8);
-            HashSet<DeltaModel> deltaModelsFull = fullBustAlgorithm.setOfDeltaFullBust(16, 8);
-
-            DeltaModel minDeltaModel = deltaModelsRand.stream().min((o1, o2) -> Double.compare(o1.getDelta(), o2.getDelta())).get();
-            DeltaModel deltaModel1 = deltaModelsFull.stream().min((o1, o2) -> Double.compare(o1.getDelta(), o2.getDelta())).get();
-
-            repository.save(deltaModelsRand);
-            repository.save(deltaModelsFull);
+            RandomAlgorithm randomAlgorithm = new RandomAlgorithm();
 
 
-            repository.findAll().forEach(System.out::println);
-            System.out.println("minFull: " + deltaModel1);
+            int q = 8;
+            int d = 4;
 
-            System.out.println("minRand: " + minDeltaModel);
+            while (q < 128) {
+                d = 8;
+                while (d <= 16 && d <= q / 2) {
+                    Set<DeltaModel> deltaModels = fullBustAlgorithm.setOfDeltaFullBust(q, d);
+                    System.out.println("q = " + q + " ; d = " + d);
+                    DeltaModel minDelta = deltaModels.stream().min(DeltaModel::compareTo).get();
+                    DeltaModel deltaModel = randomAlgorithm.randomDelta(q, d);
+                    System.out.println("full: " + minDelta);
+                    System.out.println("rand: " + deltaModel);
+                    String filenameFull = "fullbust.txt";
+                    String file = getClass().getClassLoader().getResource(filenameFull).getFile();
+                    String filenameRand =  "random.txt";
+                    String fileR = getClass().getClassLoader().getResource(filenameRand).getFile();
+                    try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
+                        BufferedWriter writer1 = new BufferedWriter(new FileWriter(fileR, true))) {
+                        writer.write("q = " + q + " ; d = " + d + "\n");
+                        writer.write(minDelta.toString() + "\n");
+                        writer1.write("q = " + q + " ; d = " + d + "\n");
+                        writer.write(deltaModel.toString() + "\n");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } finally {
 
-            new BeesAlgorithm(1000, 100).function(16, 8);
+                    }
+                    d *= 2;
+                }
+                q *= 2;
+            }
         };
     }
+
+
 
 
 }
