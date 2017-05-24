@@ -41,7 +41,6 @@ public class BeesAlgorithmImpl implements BeesAlgorithm {
     public BeesAlgorithmImpl() {}
 
     private BeesAlgorithmImpl(int countOfAreas, int iterateCount) {
-
         startCountOfAreas = countOfAreas;
         countOfBees = countOfAreas > 1000 ? (int)(0.02 * countOfAreas) : 10;
         countOfBeesForBest = (int) (0.5 * countOfBees);
@@ -54,18 +53,19 @@ public class BeesAlgorithmImpl implements BeesAlgorithm {
         this.bests = new HashSet<>();
     }
 
-    public void function(int q, int d) {
+    public DeltaModel function(int q, int d) {
         Scope.globalMin = -1;
         Scope.globalMax = q;
         Set<int[]> ints = new RandomAlgorithm().generateRandomArrs(q, d, this.startCountOfAreas);
         System.out.println(ints.size());
         Set<DeltaModel> deltaModels = deltaFunction.deltaFunctionForSet(ints);
-
+        DeltaModel result = new DeltaModel(new int[]{0,0,0,0}, 1d);
         try {
-            System.out.println(work(deltaModels));
+            result = work(deltaModels);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return result;
         //DeltaModel deltaModel = bests.stream().min((o1, o2) -> Double.compare(o1.getDelta(), o2.getDelta())).get();
         //System.out.println(deltaModel);
 

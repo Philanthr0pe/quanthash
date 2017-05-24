@@ -1,10 +1,12 @@
 package com.univer.quanthash.genetic.swarmOfBees;
 
+import com.univer.quanthash.models.DeltaModel;
+
 /**
  * Created by Vladislav on 14-Apr-17.
  */
 public interface BeesAlgorithm {
 
-    void function(int q, int d);
+    DeltaModel function(int q, int d);
 
 }
