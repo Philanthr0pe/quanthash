@@ -2,7 +2,7 @@ package com.univer.quanthash;
 
 import com.univer.quanthash.dao.DeltaRepository;
 import com.univer.quanthash.fullbust.FullBustAlgorithm;
-import com.univer.quanthash.models.DeltaModel;
+import com.univer.quanthash.genetic.swarmOfBees.BeesAlgorithm;
 import com.univer.quanthash.random.RandomAlgorithm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,10 +11,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.util.Set;
 
 
 /**
@@ -25,6 +21,9 @@ public class Application {
 
     @Autowired
     FullBustAlgorithm fullBustAlgorithm;
+
+    @Autowired
+    BeesAlgorithm beesAlgorithm;
 
 
     private static final Logger log = LoggerFactory.getLogger(Application.class);
@@ -42,7 +41,9 @@ public class Application {
             int q = 8;
             int d = 4;
 
-            while (q < 128) {
+
+
+            /*while (q < 128) {
                 d = 8;
                 while (d <= 16 && d <= q / 2) {
                     Set<DeltaModel> deltaModels = fullBustAlgorithm.setOfDeltaFullBust(q, d);
@@ -62,11 +63,7 @@ public class Application {
                     d *= 2;
                 }
                 q *= 2;
-            }
+            }*/
         };
     }
-
-
-
-
 }

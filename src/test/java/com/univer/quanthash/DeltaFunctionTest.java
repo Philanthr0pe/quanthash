@@ -23,7 +23,7 @@ public class DeltaFunctionTest {
         Integer setSize = 8;
         DeltaFunction.q = setSize;
         Double expected = 0.06267285198174172;
-        int[] array = new int[]{3, 0, 0, 2};
+        int[] array = new int[]{5, 3, 4, 6, 1, 0, 2, 7};
         DeltaModel functionValue = deltaFunction.deltaFunction(array);
         System.out.println(functionValue);
         assertNotNull(functionValue);

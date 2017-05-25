@@ -20,7 +20,7 @@ public class Scope {
     }
 
     public Scope(int min, int max) {
-        this.min = min;
+        this.min = min >= 0 ? min : 0;
         this.max = max;
     }
 

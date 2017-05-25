@@ -30,16 +30,8 @@ public class DeltaFunction {
             resultSumSin = 0d;
             resultSumCos = 0d;
             for(int i = 0; i< set.length; i++) {
-                resultSumSin += expFunctionSin(set[i], setSize, j);
-                resultSumCos += expFunctionCos(set[i], setSize, j);
-                if (i >= set.length / 2) {
-                    double sqrt = Math.sqrt(Math.pow(resultSumCos, 2) + Math.pow(resultSumSin, 2))/set.length;
-                    if (sqrt >= min) {
-                        resultSumSin = 2d;
-                        resultSumCos = 2d;
-                        break;
-                    }
-                }
+                resultSumSin += expFunctionSin(set[i], q, j);
+                resultSumCos += expFunctionCos(set[i], q, j);
             }
             //resultSumSin /= set.length;
             //resultSumCos /= set.length;
@@ -48,9 +40,6 @@ public class DeltaFunction {
             //System.out.println(resultSum);
             if (max < resultSum) {
                 max = resultSum;
-            }
-            if (resultSum < min) {
-                min = resultSum;
             }
         }
 
@@ -77,7 +66,7 @@ public class DeltaFunction {
     private static Double expFunctionSin(Integer integer, Integer setSize, int z) {
         Double expResult = 2 * z * integer.intValue() * Math.PI;
         expResult /= setSize;
-        expResult = -Math.sin(expResult);
+        expResult = Math.sin(expResult);
         return expResult;
     }
 
