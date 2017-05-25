@@ -32,7 +32,8 @@ public class BeesAlgorithmImpl implements BeesAlgorithm {
     private int sizeOfArea;
     private DeltaFunction deltaFunction;
     private int iterateCount;
-    private Set<List<DeltaModel>> bests;
+    private double minDelta = 0d;
+    private Set<DeltaModel> bests;
 
     public BeesAlgorithm getInstance(int countOfAreas, int iterateCount) {
         return new BeesAlgorithmImpl(countOfAreas, iterateCount);
@@ -40,7 +41,7 @@ public class BeesAlgorithmImpl implements BeesAlgorithm {
 
     public BeesAlgorithmImpl() {}
 
-    private BeesAlgorithmImpl(int countOfAreas, int iterateCount) {
+    public BeesAlgorithmImpl(int countOfAreas, int iterateCount) {
         startCountOfAreas = countOfAreas;
         countOfBees = countOfAreas > 1000 ? (int)(0.02 * countOfAreas) : 10;
         countOfBeesForBest = (int) (0.5 * countOfBees);
@@ -53,11 +54,11 @@ public class BeesAlgorithmImpl implements BeesAlgorithm {
         this.bests = new HashSet<>();
     }
 
-    public DeltaModel function(int q, int d) {
-        Scope.globalMin = -1;
+    public DeltaModel function(int q, int d, double minDelta) {
+        this.minDelta = minDelta;
+        Scope.globalMin = 0;
         Scope.globalMax = q;
         Set<int[]> ints = new RandomAlgorithm().generateRandomArrs(q, d, this.startCountOfAreas);
-        System.out.println(ints.size());
         Set<DeltaModel> deltaModels = deltaFunction.deltaFunctionForSet(ints);
         DeltaModel result = new DeltaModel(new int[]{0,0,0,0}, 1d);
         try {
@@ -65,6 +66,11 @@ public class BeesAlgorithmImpl implements BeesAlgorithm {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        DeltaModel minOfBest = bests.stream().min(DeltaModel::compareTo).get();
+        if (minOfBest.compareTo(result) <= 0) {
+            return minOfBest;
+        }
+        //bests.forEach(System.out::println);
         return result;
         //DeltaModel deltaModel = bests.stream().min((o1, o2) -> Double.compare(o1.getDelta(), o2.getDelta())).get();
         //System.out.println(deltaModel);
@@ -77,8 +83,11 @@ public class BeesAlgorithmImpl implements BeesAlgorithm {
         List<DeltaModel> deltaModelList = deltaModels.stream().sorted().collect(Collectors.toList());
         Set<DeltaModel> deltaModelsBest = separateSetOfDeltas(deltaModelList, 0, countOfBestAreas);
         Set<DeltaModel> deltaModelsNorm = separateSetOfDeltas(deltaModelList, countOfBestAreas, countOfWorstAreas + countOfBestAreas);
+        DeltaModel minModel = deltaModelList.get(0);
+        bests.add(minModel);
+        int k = (int)(iterateCount * 0.2);
 
-        while (iterateCount-- == 0) {
+        while (iterateCount-- != 0) {
             Set<DeltaModel> scopesAndGetDelta = new Area(countOfBeesForBest, deltaModelsBest, sizeOfArea)
                     .createScopesAndGetDelta();
             scopesAndGetDelta.addAll(new Area(countOfBeesForWorst, deltaModelsNorm, sizeOfArea)
@@ -90,10 +99,26 @@ public class BeesAlgorithmImpl implements BeesAlgorithm {
             for (DeltaModel deltaModel : deltaModelsBest) {
                 deltaModel.setType("bees");
             }
-            deltaRepository.save(deltaModelsBest);
+//            deltaRepository.save(deltaModelsBest);
             deltaModelsNorm = separateSetOfDeltas(deltaModelList,
                     countOfBestAreas,
                     countOfWorstAreas + countOfBestAreas);
+            DeltaModel deltaModel = deltaModelsBest.stream().min(DeltaModel::compareTo).get();
+            if (deltaModel.getDelta() < minModel.getDelta()) {
+                minModel = deltaModel;
+                bests.add(deltaModel);
+                System.out.println(deltaModel);
+                k = (int)(iterateCount * 0.2);
+            } else {
+                k--;
+                if (k <= 0) {
+                    return minModel;
+                }
+            }
+            if (deltaModel.getDelta() <= minDelta) {
+                iterateCount *= 0.1;
+            }
+            //System.out.println(deltaModel);
         }
         System.out.println(deltaModelList.get(0));
         System.out.println(deltaModelList.get(1));

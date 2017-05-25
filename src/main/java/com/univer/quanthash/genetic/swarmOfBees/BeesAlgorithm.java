@@ -7,6 +7,6 @@ import com.univer.quanthash.models.DeltaModel;
  */
 public interface BeesAlgorithm {
 
-    DeltaModel function(int q, int d);
+    DeltaModel function(int q, int d, double delta);
 
 }
