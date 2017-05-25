@@ -22,17 +22,20 @@ public class BeesAlgorithmTest {
 
     @Test
     public void functionTest() {
-
+        int q = 4;
         for (int i = 0; i < 4; i++) {
-            int q = 8 * (i+1);
-            DeltaModel deltaModel = new BeesAlgorithmImpl(500 * (i+1), 200 * (i+1))
+            q *= 2;
+            DeltaModel deltaModel = new BeesAlgorithmImpl(500, 200)
                     .function(q, 4, 0.5);
+            System.out.println(q + " " + 4);
             System.out.println(deltaModel);
         }
+        q = 8;
         for (int i = 0; i < 4; i++) {
-            int q = 16 * (i+1);
-            DeltaModel deltaModel = new BeesAlgorithmImpl(500 * (i+1), 200 * (i+1))
+            q *=2;
+            DeltaModel deltaModel = new BeesAlgorithmImpl(500 , 200)
                     .function(q, 8, 0.5);
+            System.out.println(q + " " + 8);
             System.out.println(deltaModel);
         }
     }

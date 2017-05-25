@@ -43,7 +43,7 @@ public class Application {
             int d = 4;
 
             while (q < 128) {
-                d = 8;
+                d = 4;
                 while (d <= 16 && d <= q / 2) {
                     Set<DeltaModel> deltaModels = fullBustAlgorithm.setOfDeltaFullBust(q, d);
                     System.out.println("q = " + q + " ; d = " + d);

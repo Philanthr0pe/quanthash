@@ -10,10 +10,12 @@ import java.util.Random;
 public class Bee {
     private int[] maxArray;
     private int[] minArray;
+    private int q;
 
-    public Bee(int[] minArray, int[] maxArray) {
+    public Bee(int[] minArray, int[] maxArray, int q) {
         this.maxArray = maxArray;
         this.minArray = minArray;
+        this.q = q;
     }
 
     public DeltaModel generateDeltaModel() {
@@ -26,6 +28,6 @@ public class Bee {
     }
 
     private DeltaModel countDelta (int[] array) {
-        return DeltaFunction.deltaFunction(array);
+        return new DeltaFunction(q).deltaFunction(array);
     }
 }

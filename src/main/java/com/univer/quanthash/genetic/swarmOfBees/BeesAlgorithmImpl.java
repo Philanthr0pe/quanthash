@@ -59,6 +59,7 @@ public class BeesAlgorithmImpl implements BeesAlgorithm {
         Scope.globalMin = 0;
         Scope.globalMax = q;
         Set<int[]> ints = new RandomAlgorithm().generateRandomArrs(q, d, this.startCountOfAreas);
+        DeltaFunction.q = q;
         Set<DeltaModel> deltaModels = deltaFunction.deltaFunctionForSet(ints);
         DeltaModel result = new DeltaModel(new int[]{0,0,0,0}, 1d);
         try {
@@ -107,7 +108,7 @@ public class BeesAlgorithmImpl implements BeesAlgorithm {
             if (deltaModel.getDelta() < minModel.getDelta()) {
                 minModel = deltaModel;
                 bests.add(deltaModel);
-                System.out.println(deltaModel);
+                //System.out.println(deltaModel);
                 k = (int)(iterateCount * 0.2);
             } else {
                 k--;
