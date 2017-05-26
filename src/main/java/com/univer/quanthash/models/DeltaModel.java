@@ -46,7 +46,7 @@ public class DeltaModel implements Comparable {
         return "DeltaModel{" +
                 "id=" + id +
                 ", array=" + Arrays.toString(array) +
-                ", delta=" + delta +
+                ",\n delta=" + delta +
                 '}';
     }
 
