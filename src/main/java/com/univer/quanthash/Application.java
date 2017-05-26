@@ -9,10 +9,12 @@ import com.univer.quanthash.random.RandomAlgorithm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.PropertySource;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -22,10 +24,21 @@ import java.io.FileWriter;
  * Created by Vladislav on 14-Apr-17.
  */
 @SpringBootApplication
+@PropertySource(value= {"classpath:application.properties"})
 public class Application {
 
     @Autowired
     FullBustAlgorithm fullBustAlgorithm;
+
+    @Value("${random}")
+    String randFile;
+
+    @Value("${bees}")
+    String beesFile;
+
+    @Value("${fullbust}")
+    String fullFile;
+
 
     RandomAlgorithm randomAlgorithm;
 
@@ -43,14 +56,12 @@ public class Application {
         return (args) -> {
             randomAlgorithm = new RandomAlgorithm();
             beesAlgorithm = new BeesAlgorithmImpl(500, 1000);
-            String randFile = "D:\\Vlad\\quanthash\\src\\main\\resources\\random.txt";
-            String beesFile = "D:\\Vlad\\quanthash\\src\\main\\resources\\bees.txt";
 
-            int q = 1024;
-            int d = 0;
+            int q = 8;
+            int d = 4;
 
             while (q <= 4096) {
-                d = 64;
+                d = 4;
                 while (d <= 1024 && d <= q / 2) {
                     DeltaModel randAlg = randAlg(q, d);
                     writeToFile(randFile, q, d, randAlg);

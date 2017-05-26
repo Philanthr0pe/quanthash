@@ -38,7 +38,7 @@ public class RandomAlgorithm {
     public int sizeOfSet(int q, int d) {
         int f = q+d-1;
         if (f > 20) {
-            return (int) (8000 * Math.log(q)/Math.log(2));
+            return (int) (800 * Math.log(q)/Math.log(2));
         }
         long factorialN = CombinatoricsUtils.factorial(f);
         long factorialD = CombinatoricsUtils.factorial(d);
