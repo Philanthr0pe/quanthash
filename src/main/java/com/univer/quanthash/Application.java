@@ -1,6 +1,5 @@
 package com.univer.quanthash;
 
-import com.univer.quanthash.dao.DeltaRepository;
 import com.univer.quanthash.fullbust.FullBustAlgorithm;
 import com.univer.quanthash.genetic.swarmOfBees.BeesAlgorithm;
 import com.univer.quanthash.genetic.swarmOfBees.BeesAlgorithmImpl;
@@ -52,7 +51,7 @@ public class Application {
     }
 
     @Bean
-    public CommandLineRunner demo(DeltaRepository repository) {
+    public CommandLineRunner demo() {
         return (args) -> {
             randomAlgorithm = new RandomAlgorithm();
             beesAlgorithm = new BeesAlgorithmImpl(500, 1000);
@@ -88,6 +87,8 @@ public class Application {
         DeltaModel deltaModel = beesAlgorithm.function(q, d, delta);
         return deltaModel;
     }
+
+
 
     public boolean writeToFile(String filename, int q, int d, DeltaModel deltaModel) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename, true))) {

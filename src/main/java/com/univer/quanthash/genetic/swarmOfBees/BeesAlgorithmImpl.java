@@ -1,12 +1,10 @@
 package com.univer.quanthash.genetic.swarmOfBees;
 
 import com.univer.quanthash.DeltaFunction;
-import com.univer.quanthash.dao.DeltaRepository;
 import com.univer.quanthash.models.Area;
 import com.univer.quanthash.models.DeltaModel;
 import com.univer.quanthash.models.Scope;
 import com.univer.quanthash.random.RandomAlgorithm;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -20,8 +18,8 @@ import java.util.stream.Collectors;
 @Service
 public class BeesAlgorithmImpl implements BeesAlgorithm {
 
-    @Autowired
-    DeltaRepository deltaRepository;
+    /*@Autowired
+    DeltaRepository deltaRepository;*/
 
     private int startCountOfAreas;
     private int countOfBees;
