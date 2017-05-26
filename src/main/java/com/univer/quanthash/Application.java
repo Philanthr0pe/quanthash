@@ -18,6 +18,7 @@ import org.springframework.context.annotation.PropertySource;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.util.HashSet;
 
 
 /**
@@ -60,24 +61,28 @@ public class Application {
             int q = 8;
             int d = 4;
 
-            while (q <= 4096) {
+            while (q <= 256) {
                 d = 4;
-                while (d <= 1024 && d <= q / 2) {
-                    DeltaModel randAlg = randAlg(q, d);
+                while (d <= 16 && d <= q / 2) {
+                    /*DeltaModel randAlg = randAlg(q, d);
                     writeToFile(randFile, q, d, randAlg);
                     DeltaModel beesAlg = beesAlg(q, d, randAlg.getDelta());
                     writeToFile(beesFile, q, d, beesAlg);
-                    console(q, d, randAlg, beesAlg);
+                    console(q, d, randAlg, beesAlg);*/
+                    DeltaModel fullAlg = fullAlg(q, d).stream().min(DeltaModel::compareTo).get();
+                    writeToFile(fullFile, q, d, fullAlg);
+                    console(q, d, fullAlg);
                     d *= 2;
                 }
                 q *= 2;
             }
         };
     }
-    public void console(int q, int d, DeltaModel rand, DeltaModel bees) {
+    public void console(int q, int d, DeltaModel full) {
         System.out.printf("q = %d , d = %d \n", q, d);
-        System.out.printf("rand : %s \n", rand.toString());
-        System.out.printf("bees : %s \n", bees.toString());
+        /*System.out.printf("rand : %s \n", rand.toString());
+        System.out.printf("bees : %s \n", bees.toString());*/
+        System.out.println(full);
     }
 
     public DeltaModel randAlg(int q, int d) {
@@ -87,6 +92,11 @@ public class Application {
     public DeltaModel beesAlg(int q, int d, double delta) {
         DeltaModel deltaModel = beesAlgorithm.function(q, d, delta);
         return deltaModel;
+    }
+
+    public HashSet<DeltaModel> fullAlg(int q, int d) {
+        HashSet<DeltaModel> deltaModels = fullBustAlgorithm.setOfDeltaFullBust(q, d);
+        return deltaModels;
     }
 
     public boolean writeToFile(String filename, int q, int d, DeltaModel deltaModel) {
