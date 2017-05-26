@@ -20,12 +20,13 @@ public class DeltaFunctionTest {
 
     @Test
     public void functionTest() {
-        Integer setSize = 8;
+        Integer setSize = 32;
         DeltaFunction.q = setSize;
-        Double expected = 0.06267285198174172;
-        int[] array = new int[]{5, 3, 4, 6, 1, 0, 2, 7};
+        //Double expected = 0.06267285198174172;
+        int[] array = new int[]{16, 12, 28, 0};
         DeltaModel functionValue = deltaFunction.deltaFunction(array);
         System.out.println(functionValue);
+
         assertNotNull(functionValue);
     }
 

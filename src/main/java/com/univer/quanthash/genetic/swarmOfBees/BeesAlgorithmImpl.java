@@ -1,10 +1,12 @@
 package com.univer.quanthash.genetic.swarmOfBees;
 
 import com.univer.quanthash.DeltaFunction;
+import com.univer.quanthash.dao.DeltaRepository;
 import com.univer.quanthash.models.Area;
 import com.univer.quanthash.models.DeltaModel;
 import com.univer.quanthash.models.Scope;
 import com.univer.quanthash.random.RandomAlgorithm;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -18,6 +20,9 @@ import java.util.stream.Collectors;
 @Service
 public class BeesAlgorithmImpl implements BeesAlgorithm {
 
+    @Autowired
+    DeltaRepository deltaRepository;
+
     private int startCountOfAreas;
     private int countOfBees;
     private int countOfBeesForBest;
@@ -27,13 +32,12 @@ public class BeesAlgorithmImpl implements BeesAlgorithm {
     private int sizeOfArea;
     private DeltaFunction deltaFunction;
     private int iterateCount;
-    private Set<List<DeltaModel>> bests;
+    private double minDelta = 0d;
+    private Set<DeltaModel> bests;
 
     public BeesAlgorithm getInstance(int countOfAreas, int iterateCount) {
         return new BeesAlgorithmImpl(countOfAreas, iterateCount);
     }
-
-
 
     public BeesAlgorithmImpl() {}
 
@@ -44,29 +48,32 @@ public class BeesAlgorithmImpl implements BeesAlgorithm {
         countOfBeesForWorst = (int) (0.2 * countOfBees);
         countOfBestAreas = (int) (0.2 * countOfAreas);
         countOfWorstAreas = (int) (0.3 * countOfAreas);
-        sizeOfArea = 2;
+        sizeOfArea = 1;
         deltaFunction = new DeltaFunction();
         this.iterateCount = iterateCount;
         this.bests = new HashSet<>();
     }
 
-    public DeltaModel function(int q, int d) {
+    public DeltaModel function(int q, int d, double minDelta) {
+        this.minDelta = minDelta;
         Scope.globalMin = 0;
-        Scope.globalMax = q-1;
+        Scope.globalMax = q;
+        //System.out.println(d);
         Set<int[]> ints = new RandomAlgorithm().generateRandomArrs(q, d, this.startCountOfAreas);
-        //System.out.println(ints.size());
-        Set<DeltaModel> deltaModels = new HashSet<>(ints.size());
-        ints.forEach(arr -> deltaModels.add(deltaFunction.deltaFunction(arr)));
-        //System.out.println(deltaModels.stream().min(DeltaModel::compareTo).get());
-        DeltaModel result = new DeltaModel(new int[]{0,0,0,0}, 10d);
+        DeltaFunction.q = q;
+        Set<DeltaModel> deltaModels = deltaFunction.deltaFunctionForSet(ints);
+        DeltaModel result = new DeltaModel(new int[]{0,0,0,0}, 1d);
+        this.bests = new HashSet<>();
         try {
             result = work(deltaModels);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (result != null) {
-            //System.out.println(result);
+        DeltaModel minOfBest = bests.stream().min(DeltaModel::compareTo).get();
+        if (minOfBest.compareTo(result) <= 0) {
+            return minOfBest;
         }
+        //bests.forEach(System.out::println);
         return result;
         //DeltaModel deltaModel = bests.stream().min((o1, o2) -> Double.compare(o1.getDelta(), o2.getDelta())).get();
         //System.out.println(deltaModel);
@@ -79,8 +86,12 @@ public class BeesAlgorithmImpl implements BeesAlgorithm {
         List<DeltaModel> deltaModelList = deltaModels.stream().sorted().collect(Collectors.toList());
         Set<DeltaModel> deltaModelsBest = separateSetOfDeltas(deltaModelList, 0, countOfBestAreas);
         Set<DeltaModel> deltaModelsNorm = separateSetOfDeltas(deltaModelList, countOfBestAreas, countOfWorstAreas + countOfBestAreas);
+        DeltaModel minModel = deltaModelList.get(0);
+        bests.add(minModel);
+        int iterC = iterateCount;
+        int k = (int)(iterateCount * 0.2);
 
-        while (iterateCount-- != 0) {
+        while (iterC-- != 0) {
             Set<DeltaModel> scopesAndGetDelta = new Area(countOfBeesForBest, deltaModelsBest, sizeOfArea)
                     .createScopesAndGetDelta();
             scopesAndGetDelta.addAll(new Area(countOfBeesForWorst, deltaModelsNorm, sizeOfArea)
@@ -89,11 +100,28 @@ public class BeesAlgorithmImpl implements BeesAlgorithm {
             deltaModelsBest = separateSetOfDeltas(deltaModelList,
                     0,
                     countOfBestAreas);
-            //System.out.println(iterateCount);
-            //deltaRepository.save(deltaModelsBest);
+            for (DeltaModel deltaModel : deltaModelsBest) {
+                deltaModel.setType("bees");
+            }
+//            deltaRepository.save(deltaModelsBest);
             deltaModelsNorm = separateSetOfDeltas(deltaModelList,
                     countOfBestAreas,
                     countOfWorstAreas + countOfBestAreas);
+            DeltaModel deltaModel = deltaModelsBest.stream().min(DeltaModel::compareTo).get();
+            if (deltaModel.getDelta() < minModel.getDelta()) {
+                minModel = deltaModel;
+                bests.add(deltaModel);
+                //System.out.println(deltaModel);
+                k = (int)(iterC * 0.2);
+            } else {
+                k--;
+                if (k <= 0) {
+                    return minModel;
+                }
+            }
+            if (deltaModel.getDelta() <= minDelta) {
+                iterC *= 0.1;
+            }
         }
         return deltaModelList.get(0);
     }

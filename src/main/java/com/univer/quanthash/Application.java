@@ -3,6 +3,8 @@ package com.univer.quanthash;
 import com.univer.quanthash.dao.DeltaRepository;
 import com.univer.quanthash.fullbust.FullBustAlgorithm;
 import com.univer.quanthash.genetic.swarmOfBees.BeesAlgorithm;
+import com.univer.quanthash.genetic.swarmOfBees.BeesAlgorithmImpl;
+import com.univer.quanthash.models.DeltaModel;
 import com.univer.quanthash.random.RandomAlgorithm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +13,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 
 
 /**
@@ -22,7 +27,8 @@ public class Application {
     @Autowired
     FullBustAlgorithm fullBustAlgorithm;
 
-    @Autowired
+    RandomAlgorithm randomAlgorithm;
+
     BeesAlgorithm beesAlgorithm;
 
 
@@ -35,35 +41,54 @@ public class Application {
     @Bean
     public CommandLineRunner demo(DeltaRepository repository) {
         return (args) -> {
-            RandomAlgorithm randomAlgorithm = new RandomAlgorithm();
+            randomAlgorithm = new RandomAlgorithm();
+            beesAlgorithm = new BeesAlgorithmImpl(500, 1000);
+            String randFile = "D:\\Vlad\\quanthash\\src\\main\\resources\\random.txt";
+            String beesFile = "D:\\Vlad\\quanthash\\src\\main\\resources\\bees.txt";
 
+            int q = 1024;
+            int d = 0;
 
-            int q = 8;
-            int d = 4;
-
-
-
-            /*while (q < 128) {
-                d = 8;
-                while (d <= 16 && d <= q / 2) {
-                    Set<DeltaModel> deltaModels = fullBustAlgorithm.setOfDeltaFullBust(q, d);
-                    System.out.println("q = " + q + " ; d = " + d);
-                    DeltaModel minDelta = deltaModels.stream().min(DeltaModel::compareTo).get();
-                    System.out.println(minDelta);
-                    try (BufferedWriter writer = new BufferedWriter(
-                            new FileWriter("D:\\Vlad\\quanthash\\src\\main\\resources\\fullbust.txt", true))) {
-                        writer.write("q = " + q + " ; d = " + d + "\n");
-                        writer.write(minDelta.toString());
-                        writer.write("\n");
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    } finally {
-
-                    }
+            while (q <= 4096) {
+                d = 64;
+                while (d <= 1024 && d <= q / 2) {
+                    DeltaModel randAlg = randAlg(q, d);
+                    writeToFile(randFile, q, d, randAlg);
+                    DeltaModel beesAlg = beesAlg(q, d, randAlg.getDelta());
+                    writeToFile(beesFile, q, d, beesAlg);
+                    console(q, d, randAlg, beesAlg);
                     d *= 2;
                 }
                 q *= 2;
-            }*/
+            }
         };
     }
+    public void console(int q, int d, DeltaModel rand, DeltaModel bees) {
+        System.out.printf("q = %d , d = %d \n", q, d);
+        System.out.printf("rand : %s \n", rand.toString());
+        System.out.printf("bees : %s \n", bees.toString());
+    }
+
+    public DeltaModel randAlg(int q, int d) {
+        DeltaModel deltaModel = randomAlgorithm.randomDelta(q, d);
+        return deltaModel;
+    }
+    public DeltaModel beesAlg(int q, int d, double delta) {
+        DeltaModel deltaModel = beesAlgorithm.function(q, d, delta);
+        return deltaModel;
+    }
+
+    public boolean writeToFile(String filename, int q, int d, DeltaModel deltaModel) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename, true))) {
+            writer.write("q = " + q + " ; d = " + d + "\n");
+            writer.write(deltaModel.toString() + "\n");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+
+
 }

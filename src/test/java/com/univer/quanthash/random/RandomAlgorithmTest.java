@@ -1,5 +1,6 @@
 package com.univer.quanthash.random;
 
+import com.univer.quanthash.models.DeltaModel;
 import org.apache.commons.math3.util.CombinatoricsUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +26,10 @@ public class RandomAlgorithmTest {
     public void randomDelta() throws Exception {
         int q = 4;
         int d = 2;
-
+        for (int i = 0; i < 5; i++) {
+            DeltaModel deltaModel = randomAlgorithm.randomDelta(q * (i+1), d);
+            System.out.println(deltaModel);
+        }
     }
 
 

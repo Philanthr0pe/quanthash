@@ -47,7 +47,7 @@ public class Scope {
         }
         Set<DeltaModel> deltaModels = new HashSet<>(countOfBees);
         for (int i = 0; i < countOfBees; i++) {
-            deltaModels.add(new Bee(minArray, maxArray)
+            deltaModels.add(new Bee(minArray, maxArray, globalMax)
                             .generateDeltaModel());
         }
         return deltaModels;

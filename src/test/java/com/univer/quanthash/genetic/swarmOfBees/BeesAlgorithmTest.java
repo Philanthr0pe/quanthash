@@ -4,39 +4,38 @@ import com.univer.quanthash.DeltaFunction;
 import com.univer.quanthash.models.DeltaModel;
 import org.junit.Before;
 import org.junit.Test;
-import org.openjdk.jmh.annotations.*;
-
-import java.util.concurrent.TimeUnit;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Created by Vladislav on 26-Apr-17.
  */
 public class BeesAlgorithmTest {
 
-    //BeesAlgorithm beesAlgorithm
-
-
-    @Benchmark
-    @BenchmarkMode(Mode.All)
-    @OutputTimeUnit(TimeUnit.NANOSECONDS)
-    public void measureName() {
-        DeltaModel deltaModel = new BeesAlgorithmImpl().getInstance(1000, 2000)
-                .function(8, 4);
-        System.out.println(deltaModel);
-    }
+    @Autowired
+    BeesAlgorithm beesAlgorithm;
 
     @Before
     public void setUp() throws Exception {
         DeltaFunction.q = 8;
-        new BeesAlgorithmImpl().getInstance(1000, 1000);
+        beesAlgorithm = new BeesAlgorithmImpl().getInstance(1000, 1000);
     }
 
     @Test
     public void functionTest() {
-        for (int i = 0; i < 5; i++) {
-            int q = 8;
-            DeltaModel deltaModel = new BeesAlgorithmImpl(1000, 1000)
-                    .function(q, 4);
+        int q = 4;
+        for (int i = 0; i < 4; i++) {
+            q *= 2;
+            DeltaModel deltaModel = new BeesAlgorithmImpl(500, 200)
+                    .function(q, 4, 0.5);
+            System.out.println(q + " " + 4);
+            System.out.println(deltaModel);
+        }
+        q = 8;
+        for (int i = 0; i < 4; i++) {
+            q *=2;
+            DeltaModel deltaModel = new BeesAlgorithmImpl(500 , 200)
+                    .function(q, 8, 0.5);
+            System.out.println(q + " " + 8);
             System.out.println(deltaModel);
         }
     }

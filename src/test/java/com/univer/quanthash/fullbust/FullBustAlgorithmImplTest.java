@@ -94,11 +94,11 @@ public class FullBustAlgorithmImplTest {
         }
         ICombinatoricsVector<Integer> vector = Factory.createVector(integers1);
         Generator<Integer> multiCombinationGenerator = Factory.createMultiCombinationGenerator(vector, 16);
-        for (ICombinatoricsVector<Integer> integers : multiCombinationGenerator) {
+        /*for (ICombinatoricsVector<Integer> integers : multiCombinationGenerator) {
             for (Integer integer : integers.getVector()) {
                 System.out.println(integer);
             }
-        }
+        }*/
         //assertEquals(collect1, intsInt);
 
 
