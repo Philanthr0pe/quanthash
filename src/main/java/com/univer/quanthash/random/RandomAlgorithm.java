@@ -14,7 +14,7 @@ public class RandomAlgorithm {
 
     DeltaFunction deltaFunction;
     int size;
-    int max = 5000000;
+    int max = 500000;
 
     public RandomAlgorithm() {
         deltaFunction = new DeltaFunction();
@@ -22,13 +22,11 @@ public class RandomAlgorithm {
 
     public DeltaModel randomDelta(int q, int d) {
         size = sizeOfSet(q, d);
-        Set<int[]> ints = generateRandomArrs(q, d, size);
-        deltaFunction = new DeltaFunction(q);
-        DeltaModel resultModel = null;
-        double min = 10d;
-        for (int[] anInt : ints) {
-            DeltaModel deltaModel = deltaFunction.deltaFunction(anInt);
-            if (min > deltaModel.getDelta()) {
+        DeltaModel resultModel = new DeltaModel(new int[]{0, 0}, 1.0);
+        for (int i = 0; i < size; i++) {
+            int[] array = nextArray(q, d);
+            DeltaModel deltaModel = deltaFunction.deltaFunction(array);
+            if (resultModel.getDelta() > deltaModel.getDelta()) {
                 resultModel = deltaModel;
             }
         }
@@ -56,5 +54,13 @@ public class RandomAlgorithm {
             ints.add(array);
         }
         return ints;
+    }
+
+    public int[] nextArray(int q, int d) {
+        int[] array = new int[d];
+        for (int j = 0; j < d; j++) {
+            array[j] =  new Random().nextInt(q);
+        }
+        return array;
     }
 }
