@@ -13,10 +13,18 @@ public class Scope {
     private int max;
     private int[] array;
     private int scope;
+    private Set<Bee> bees;
 
-    public Scope(int[] array, int scope) {
+    public Scope(int countOfBees) {
+        bees = new HashSet<>(countOfBees);
+        for (int i = 0; i < countOfBees; i++) {
+            bees.add(new Bee(globalMax));
+        }
+    }
+    public Scope setParam(int[] array, int scope) {
         this.array = array;
         this.scope = scope;
+        return this;
     }
 
     public Scope(int min, int max) {
@@ -24,7 +32,7 @@ public class Scope {
         this.max = max;
     }
 
-    public Set<DeltaModel> generateScopesAndStartBees(int countOfBees) {
+    public Set<DeltaModel> generateScopesAndStartBees() {
         int minArray[] = new int[array.length];
         int maxArray[] = new int[array.length];
         for (int i = 0; i < array.length; i++) {
@@ -45,11 +53,11 @@ public class Scope {
             }
 
         }
-        Set<DeltaModel> deltaModels = new HashSet<>(countOfBees);
-        for (int i = 0; i < countOfBees; i++) {
-            deltaModels.add(new Bee(minArray, maxArray, globalMax)
-                            .generateDeltaModel());
+        Set<DeltaModel> deltaModels = new HashSet<>(bees.size());
+        for (int i = 0; i < bees.size(); i++) {
+            //deltaModels.add(new Bee(globalMax).generateDeltaModel());
         }
+
         return deltaModels;
     }
 

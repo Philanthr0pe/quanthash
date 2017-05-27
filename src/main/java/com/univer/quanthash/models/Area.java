@@ -1,6 +1,8 @@
 package com.univer.quanthash.models;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -8,32 +10,55 @@ import java.util.Set;
  */
 public class Area{
     private int countOfBees;
-    private Set<DeltaModel> deltaModel;
+    private List<DeltaModel> deltaModel;
+    private List<Bee> bees;
+    private int q;
+    private int d;
     private int scope;
 
-    public Area(int countOfBees, Set<DeltaModel> deltaModel, int scope) {
+    public Area(int countOfBees, int q) {
         this.countOfBees = countOfBees;
-        this.deltaModel = deltaModel;
+        this.bees = new ArrayList<>();
+        for (int i = 0; i < countOfBees; i++) {
+            bees.add(new Bee(q));
+        }
+    }
+
+    public void setScope(int scope) {
         this.scope = scope;
+        for (Bee bee : bees) {
+            bee.setScope(scope);
+        }
+    }
+
+    public void setModels(List<DeltaModel> deltaModel) {
+        this.deltaModel = deltaModel;
     }
 
     public Set<DeltaModel> createScopesAndGetDelta() {
+//        DeltaModel maxModel = deltaModel.stream().max(DeltaModel::compareTo).get();
         Set<DeltaModel> result = new HashSet<>();
-        for (DeltaModel model : deltaModel) {
-            result.addAll(new Scope(model.getArray(), scope)
-                    .generateScopesAndStartBees(countOfBees));
+        for (Bee bee : bees) {
+            for (DeltaModel model : deltaModel) {
+                DeltaModel resModel = bee.generateDeltaModel(model);
+                result.add(resModel);
+            }
         }
         return result;
     }
 
-
-
+    public void warmUpBees(DeltaModel deltaModel) {
+        int beesSize = bees.size();
+        for (int i = 0; i < bees.size(); i++) {
+            bees.get(i).initSpeed(deltaModel);
+        }
+    }
 
     public int getCountOfBees() {
         return countOfBees;
     }
 
-    public Set<DeltaModel> getDeltaModel() {
+    public List<DeltaModel> getDeltaModel() {
         return deltaModel;
     }
 }

@@ -26,21 +26,19 @@ public class BeesAlgorithmTest {
 
     @Test
     public void functionTest() {
-        int q = 4;
-        for (int i = 0; i < 4; i++) {
+        int q = 32;
+        int d = 4;
+        while (q <= 512) {
+            d = 4;
+            while (d <= 32 && d <= q / 2) {
+                DeltaModel deltaModel = new BeesAlgorithmImpl()
+                        .function(q, d, 0.5);
+                System.out.println(q + " " + d);
+                System.out.println(deltaModel);
+                d *= 2;
+            }
             q *= 2;
-            DeltaModel deltaModel = new BeesAlgorithmImpl()
-                    .function(q, 4, 0.5);
-            System.out.println(q + " " + 4);
-            System.out.println(deltaModel);
-        }
-        q = 8;
-        for (int i = 0; i < 4; i++) {
-            q *=2;
-            DeltaModel deltaModel = new BeesAlgorithmImpl(500 , 200)
-                    .function(q, 8, 0.5);
-            System.out.println(q + " " + 8);
-            System.out.println(deltaModel);
+
         }
     }
 
