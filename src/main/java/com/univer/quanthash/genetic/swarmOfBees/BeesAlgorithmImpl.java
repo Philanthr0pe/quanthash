@@ -57,13 +57,13 @@ public class BeesAlgorithmImpl implements BeesAlgorithm {
 
     private void setParameters(int q, int d) {
         startCountOfAreas = (int) (Math.log(q * d)/Math.log(2));
-        countOfBees = startCountOfAreas * 10;
+        countOfBees = startCountOfAreas * 5;
         countOfBeesForBest = (int) (0.3 * countOfBees);
         countOfBeesForNorm = (int) (0.2 * countOfBees);
         countOfBeesForOthers = countOfBees - countOfBeesForBest - countOfBeesForNorm;
         countOfBestAreas = (int) (0.2 * startCountOfAreas) + 1;
         countOfNormAreas = (int) (0.3 * startCountOfAreas) + 1;
-        countOfWorstAreas = (int) (countOfBestAreas + countOfBeesForNorm)/2;
+        countOfWorstAreas = (int) (countOfBestAreas + countOfNormAreas)/2;
         sizeOfArea = (int)(Math.log(q)/Math.log(2));
         deltaFunction = new DeltaFunction();
         this.iterateCount = q * d;
