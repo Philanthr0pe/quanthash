@@ -1,0 +1,132 @@
+q = 8 ; k = 4
+DeltaModel{id=null, array=[1, 6, 7, 4],
+ delta=0.6532814824381883}
+q = 16 ; k = 4
+DeltaModel{id=null, array=[13, 12, 1, 2],
+ delta=0.8154931568489172}
+q = 16 ; k = 8
+DeltaModel{id=null, array=[8, 15, 1, 1, 11, 5, 9, 9],
+ delta=0.75}
+q = 32 ; k = 4
+DeltaModel{id=null, array=[24, 17, 26, 0],
+ delta=0.8001031451912652}
+q = 32 ; k = 8
+DeltaModel{id=null, array=[13, 4, 23, 5, 1, 11, 21, 25],
+ delta=0.75}
+q = 32 ; k = 16
+DeltaModel{id=null, array=[20, 26, 15, 10, 4, 5, 19, 20, 25, 29, 23, 26, 16, 5, 1, 22],
+ delta=0.4446997824983338}
+q = 64 ; k = 4
+DeltaModel{id=null, array=[44, 11, 34, 37],
+ delta=0.8313103077261206}
+q = 64 ; k = 8
+DeltaModel{id=null, array=[39, 42, 27, 57, 31, 14, 41, 25],
+ delta=0.5876720920524786}
+q = 64 ; k = 16
+DeltaModel{id=null, array=[45, 10, 26, 27, 17, 39, 0, 59, 9, 38, 19, 40, 29, 24, 15, 6],
+ delta=0.412442323882698}
+q = 128 ; k = 4
+DeltaModel{id=null, array=[35, 117, 87, 36],
+ delta=0.8821420058638973}
+q = 128 ; k = 8
+DeltaModel{id=null, array=[120, 7, 93, 70, 75, 70, 25, 116],
+ delta=0.8630006092559684}
+q = 128 ; k = 16
+DeltaModel{id=null, array=[102, 7, 27, 10, 97, 82, 21, 121, 90, 77, 103, 8, 69, 98, 39, 116],
+ delta=0.5018440187554079}
+q = 256 ; k = 4
+DeltaModel{id=null, array=[47, 216, 252, 130],
+ delta=0.9236665107981346}
+q = 256 ; k = 8
+DeltaModel{id=null, array=[204, 150, 208, 236, 189, 146, 184, 233],
+ delta=0.7555592002736279}
+q = 256 ; k = 16
+DeltaModel{id=null, array=[60, 78, 156, 173, 165, 176, 9, 252, 94, 1, 8, 193, 25, 250, 147, 186],
+ delta=0.5684246912715079}
+q = 8 ; d = 4
+DeltaModel{id=null, array=[3, 0, 7, 0],
+ delta=0.7071067811865476}
+q = 16 ; d = 4
+DeltaModel{id=null, array=[3, 0, 4, 11],
+ delta=0.7071067811865476}
+q = 16 ; d = 8
+DeltaModel{id=null, array=[0, 2, 8, 0, 9, 3, 15, 11],
+ delta=0.4813462099405783}
+q = 32 ; d = 4
+DeltaModel{id=null, array=[21, 28, 17, 15],
+ delta=0.8066612725742567}
+q = 32 ; d = 8
+DeltaModel{id=null, array=[15, 22, 28, 12, 28, 12, 0, 6],
+ delta=0.831964342953542}
+q = 32 ; d = 16
+DeltaModel{id=null, array=[5, 25, 0, 28, 31, 4, 6, 28, 3, 12, 30, 30, 19, 29, 6, 19],
+ delta=0.4230674037737238}
+q = 64 ; d = 4
+DeltaModel{id=null, array=[24, 32, 63, 29],
+ delta=0.8443918710854393}
+q = 64 ; d = 8
+DeltaModel{id=null, array=[21, 56, 51, 31, 0, 39, 49, 62],
+ delta=0.6956542917753513}
+q = 8 ; d = 4
+DeltaModel{id=null, array=[7, 1, 0, 7],
+ delta=0.8001031451912666}
+q = 8 ; d = 4
+DeltaModel{id=null, array=[3, 6, 1, 0],
+ delta=0.6532814824381883}
+q = 8 ; d = 4
+DeltaModel{id=null, array=[2, 1, 0, 7],
+ delta=0.6532814824381891}
+q = 8 ; d = 4
+DeltaModel{id=null, array=[7, 0, 7, 6],
+ delta=0.8535533905932738}
+q = 8 ; d = 4
+DeltaModel{id=null, array=[5, 5, 3, 1],
+ delta=1.0}
+q = 8 ; d = 4
+DeltaModel{id=null, array=[7, 5, 6, 3],
+ delta=0.5}
+q = 16 ; d = 4
+DeltaModel{id=null, array=[8, 10, 14, 14],
+ delta=1.0}
+q = 16 ; d = 8
+DeltaModel{id=null, array=[0, 12, 4, 14, 2, 0, 2, 2],
+ delta=1.0}
+q = 32 ; d = 4
+DeltaModel{id=null, array=[18, 18, 29, 2],
+ delta=0.9856240787905576}
+q = 32 ; d = 8
+DeltaModel{id=null, array=[15, 5, 14, 0, 7, 18, 9, 1],
+ delta=0.531223280781938}
+q = 8 ; d = 4
+DeltaModel{id=null, array=[7, 5, 4, 2],
+ delta=0.6532814824381886}
+q = 16 ; d = 4
+DeltaModel{id=null, array=[7, 11, 10, 0],
+ delta=0.5817115674011645}
+q = 16 ; d = 8
+DeltaModel{id=null, array=[12, 1, 7, 5, 10, 9, 6, 7],
+ delta=0.46365697163388536}
+q = 32 ; d = 4
+DeltaModel{id=null, array=[28, 1, 22, 30],
+ delta=0.8001031451912652}
+q = 32 ; d = 8
+DeltaModel{id=null, array=[16, 5, 22, 21, 30, 12, 18, 20],
+ delta=0.5}
+q = 8 ; d = 4
+DeltaModel{id=null, array=[7, 5, 7, 6],
+ delta=0.8001031451912656}
+q = 16 ; d = 4
+DeltaModel{id=null, array=[13, 15, 6, 13],
+ delta=0.9477507689199572}
+q = 16 ; d = 8
+DeltaModel{id=null, array=[10, 7, 5, 15, 11, 6, 1, 4],
+ delta=0.4556813600176373}
+q = 32 ; d = 4
+DeltaModel{id=null, array=[1, 28, 0, 27],
+ delta=0.8776745724069179}
+q = 32 ; d = 8
+DeltaModel{id=null, array=[29, 1, 8, 18, 0, 14, 7, 20],
+ delta=0.5106919871678877}
+q = 32 ; d = 16
+DeltaModel{id=null, array=[6, 6, 4, 1, 2, 6, 14, 27, 17, 13, 31, 21, 19, 9, 17, 22],
+ delta=0.3971813596636415}

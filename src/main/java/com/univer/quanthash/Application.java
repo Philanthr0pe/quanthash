@@ -1,5 +1,6 @@
 package com.univer.quanthash;
 
+import com.univer.quanthash.constructive.ConstructiveAlgorithmImpl;
 import com.univer.quanthash.fullbust.FullBustAlgorithm;
 import com.univer.quanthash.genetic.swarmOfBees.BeesAlgorithm;
 import com.univer.quanthash.genetic.swarmOfBees.BeesAlgorithmImpl;
@@ -40,13 +41,18 @@ public class Application {
     @Value("${fullbust}")
     String fullFile;
 
-    @Value("${fullbust}")
+    @Value("${randAdapt}")
     String randAdapt;
+
+    @Value("${constr}")
+    String constFile;
 
 
     RandomAlgorithm randomAlgorithm;
 
     BeesAlgorithm beesAlgorithm;
+
+    ConstructiveAlgorithmImpl constructiveAlgorithm;
 
 
     private static final Logger log = LoggerFactory.getLogger(Application.class);
@@ -58,34 +64,60 @@ public class Application {
     @Bean
     public CommandLineRunner demo() {
         return (args) -> {
-            randomAlgorithm = new RandomAlgorithm();
-            AdaptiveRandom adaptiveRandom = new AdaptiveRandom();
-            beesAlgorithm = new BeesAlgorithmImpl(500, 1000);
-
-            int q = 8;
-            int d = 4;
-
-            while (q <= 256) {
-                d = 4;
-                while (d <= 16 && d <= q / 2) {
-                    DeltaModel randAlg = randAlg(q, d);
-                    writeToFile(randFile, q, d, randAlg);
-                    DeltaModel randomDelta = adaptiveRandom.randomDelta(q, d);
-                    writeToFile(randAdapt, q, d, randomDelta);
-                    DeltaModel beesAlg = beesAlg(q, d, randomDelta.getDelta());
-                    writeToFile(beesFile, q, d, beesAlg);
-                    console(q, d, randAlg, beesAlg);
-                    d *= 2;
-                }
-                q *= 2;
-            }
+            startRandomAndBees();
+            startConstr();
         };
+    }
+
+    public void startConstr() {
+        constructiveAlgorithm = new ConstructiveAlgorithmImpl();
+
+        int q = 8;
+        double eps = 1d;
+
+        while (q <= 17000) {
+            eps = 0.75;
+            while (eps > 0) {
+                DeltaModel function = constructiveAlgorithm.function(q, eps);
+                int size = function.getArray().length;
+                int realQ = constructiveAlgorithm.getRealQ();
+                writeConstrToFile(constFile, realQ, eps, size, function);
+                System.out.println("q = " + realQ + " ; eps = " + eps + " ; size = " + size + "; delta = "
+                        + function.getDelta());
+                eps -= 0.05;
+            }
+            q *= 2;
+        }
+    }
+
+    public void startRandomAndBees() {
+        randomAlgorithm = new RandomAlgorithm();
+        AdaptiveRandom adaptiveRandom = new AdaptiveRandom();
+        beesAlgorithm = new BeesAlgorithmImpl();
+
+        int q = 8;
+        int d = 4;
+
+        while (q <= 256) {
+            d = 4;
+            while (d <= 16 && d <= q / 2) {
+                DeltaModel randAlg = randAlg(q, d);
+                writeToFile(randFile, q, d, randAlg);
+                DeltaModel randomDelta = adaptiveRandom.randomDelta(q, d);
+                writeToFile(randAdapt, q, d, randomDelta);
+                DeltaModel beesAlg = beesAlg(q, d, randomDelta.getDelta());
+                writeToFile(beesFile, q, d, beesAlg);
+                console(q, d, randAlg, beesAlg);
+                d *= 2;
+            }
+            q *= 2;
+        }
     }
 
 
 
     public void console(int q, int d, DeltaModel rand, DeltaModel bees) {
-        System.out.printf("q = %k , d = %k \n", q, d);
+        System.out.printf("q = %d , d = %d \n", q, d);
         System.out.printf("rand : %s \n", rand.toString());
         System.out.printf("bees : %s \n", bees.toString());
     }
@@ -106,7 +138,18 @@ public class Application {
 
     public boolean writeToFile(String filename, int q, int d, DeltaModel deltaModel) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename, true))) {
-            writer.write("q = " + q + " ; k = " + d + "\n");
+            writer.write("q = " + q + " ; d = " + d + "\n");
+            writer.write(deltaModel.toString() + "\n");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public boolean writeConstrToFile(String filename, int q, double eps, int size, DeltaModel deltaModel) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename, true))) {
+            writer.write("q = " + q + " ; eps = " + eps + " ; size = " + size +  "\n");
             writer.write(deltaModel.toString() + "\n");
         } catch (Exception e) {
             e.printStackTrace();

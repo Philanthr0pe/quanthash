@@ -6,7 +6,7 @@ import java.util.Set;
 /**
  * Created by Vladislav on 27-Apr-17.
  */
-public class Area {
+public class Area{
     private int countOfBees;
     private Set<DeltaModel> deltaModel;
     private int scope;

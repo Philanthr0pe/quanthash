@@ -14,7 +14,7 @@ public class RandomAlgorithm {
 
     DeltaFunction deltaFunction;
     int size;
-    int max = 200000;
+    int max = 5000000;
 
     public RandomAlgorithm() {
         deltaFunction = new DeltaFunction();

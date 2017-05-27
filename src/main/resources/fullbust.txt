@@ -1,0 +1,42 @@
+q = 8 ; k = 4
+DeltaModel{id=null, array=[4, 6, 5, 4],
+ delta=0.8001031451912658}
+q = 8 ; k = 4
+DeltaModel{id=null, array=[1, 5, 7, 6],
+ delta=0.5}
+q = 16 ; k = 4
+DeltaModel{id=null, array=[9, 8, 7, 7],
+ delta=0.9477507689199571}
+q = 16 ; k = 8
+DeltaModel{id=null, array=[8, 8, 0, 4, 2, 1, 13, 3],
+ delta=0.404291142672412}
+q = 32 ; k = 4
+DeltaModel{id=null, array=[14, 25, 25, 22],
+ delta=0.9238795325112874}
+q = 32 ; k = 8
+DeltaModel{id=null, array=[9, 3, 13, 25, 24, 18, 18, 20],
+ delta=0.6534666579727743}
+q = 32 ; k = 16
+DeltaModel{id=null, array=[7, 10, 8, 12, 14, 26, 15, 23, 16, 18, 26, 18, 17, 21, 16, 24],
+ delta=0.48415682423779}
+q = 64 ; k = 4
+DeltaModel{id=null, array=[30, 46, 25, 49],
+ delta=0.9238795325112864}
+q = 64 ; k = 8
+DeltaModel{id=null, array=[24, 10, 38, 63, 61, 19, 32, 12],
+ delta=0.5673095999995833}
+q = 64 ; k = 16
+DeltaModel{id=null, array=[1, 17, 36, 42, 7, 45, 36, 32, 58, 5, 50, 13, 28, 26, 33, 3],
+ delta=0.504674138845119}
+q = 128 ; k = 4
+DeltaModel{id=null, array=[53, 43, 126, 82],
+ delta=0.9127832814813835}
+q = 128 ; k = 8
+DeltaModel{id=null, array=[0, 56, 65, 70, 24, 84, 118, 23],
+ delta=0.7434855124456765}
+q = 128 ; k = 16
+DeltaModel{id=null, array=[98, 20, 97, 38, 20, 64, 94, 56, 108, 76, 108, 100, 69, 70, 26, 10],
+ delta=0.75}
+q = 256 ; k = 4
+DeltaModel{id=null, array=[122, 114, 133, 64],
+ delta=0.934147675502281}

@@ -19,10 +19,13 @@ public class ConstructiveAlgorithmImpl {
 
     private static final Logger log = LoggerFactory.getLogger(ConstructiveAlgorithmImpl.class);
 
+    private int realQ;
+
     public DeltaModel function(int q, double eps) {
         q  = Primes.nextPrime(q);
+        realQ = q;
         //log.info("prime q = " + q);
-        //eps = round(pow(-log(log(q)/log(2))/log(eps), -1) * 10000d) / 10000d;
+        //eps = pow(-log(log(q)/log(2))/log(eps), -1);
         ////log.info("eps = " + eps);
         List<Integer> tList = generateTSetSize(q, eps);
         //tList = tList.stream().distinct().collect(Collectors.toList());
@@ -32,7 +35,10 @@ public class ConstructiveAlgorithmImpl {
         DeltaModel result = new DeltaFunction(q).deltaFunction(ints);
         double delta = pow(log(q)/log(2), -eps);
         log.info("delta = " + delta);
-        log.info("eps = " + -pow(log(log(q)/log(2))/log(delta), -1));
+        if (result.getDelta() > delta) {
+            System.err.println("modelDetal > delta");
+        }
+//        log.info("eps = " + -pow(log(log(q)/log(2))/log(delta), -1));
 
         return result;
     }
@@ -77,5 +83,7 @@ public class ConstructiveAlgorithmImpl {
         return result;
     }
 
-
+    public int getRealQ() {
+        return realQ;
+    }
 }
