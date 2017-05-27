@@ -23,8 +23,8 @@ public class ConstructiveAlgorithmImplTest {
 
     @Test
     public void function() throws Exception {
-        System.out.println(constructiveAlgorithm.function(1523, 0.5));
-        System.out.println(constructiveAlgorithm.function(9883, 0.4).getDelta());
+        System.out.println(constructiveAlgorithm.function(512, 0.5));
+        System.out.println(constructiveAlgorithm.function(512, 0.4));
         /*System.out.println(constructiveAlgorithm.function(64, 0.3).getDelta());
         System.out.println(constructiveAlgorithm.function(64, 0.2).getDelta());
         System.out.println(constructiveAlgorithm.function(64, 0.1).getDelta());*/
@@ -39,9 +39,9 @@ public class ConstructiveAlgorithmImplTest {
 
     @Test
     public void generateTSet() throws Exception {
-        constructiveAlgorithm.generateTSet(4093, 0.1)
+      /*  constructiveAlgorithm.generateTSet(4093, 0.1)
                 .forEach(System.out::println)
-                ;
+                ;*/
 
     }
 

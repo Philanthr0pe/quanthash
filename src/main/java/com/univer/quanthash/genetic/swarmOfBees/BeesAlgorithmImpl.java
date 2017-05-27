@@ -42,7 +42,7 @@ public class BeesAlgorithmImpl implements BeesAlgorithm {
     public BeesAlgorithmImpl(int countOfAreas, int iterateCount) {
         startCountOfAreas = countOfAreas;
         countOfBees = countOfAreas > 1000 ? (int)(0.02 * countOfAreas) : 10;
-        countOfBeesForBest = (int) (0.5 * countOfBees);
+        countOfBeesForBest = (int) (0.3 * countOfBees);
         countOfBeesForWorst = (int) (0.2 * countOfBees);
         countOfBestAreas = (int) (0.2 * countOfAreas);
         countOfWorstAreas = (int) (0.3 * countOfAreas);
@@ -52,11 +52,28 @@ public class BeesAlgorithmImpl implements BeesAlgorithm {
         this.bests = new HashSet<>();
     }
 
+    private void setParameters(int q, int d) {
+        startCountOfAreas = (int) (Math.log(q * d)/Math.log(2));
+        countOfBees = startCountOfAreas > 1000 ? (int)(0.02 * startCountOfAreas) : 10;
+        countOfBeesForBest = (int) (0.3 * countOfBees);
+        countOfBeesForWorst = (int) (0.2 * countOfBees);
+        countOfBestAreas = (int) (0.2 * startCountOfAreas) + 1;
+        countOfWorstAreas = (int) (0.3 * startCountOfAreas) + 1;
+        sizeOfArea = 1;
+        deltaFunction = new DeltaFunction();
+        this.iterateCount = q * d;
+        this.bests = new HashSet<>();
+
+
+
+    }
+
     public DeltaModel function(int q, int d, double minDelta) {
+        setParameters(q, d);
         this.minDelta = minDelta;
         Scope.globalMin = 0;
         Scope.globalMax = q;
-        //System.out.println(d);
+        //System.out.println(k);
         Set<int[]> ints = new RandomAlgorithm().generateRandomArrs(q, d, this.startCountOfAreas);
         DeltaFunction.q = q;
         Set<DeltaModel> deltaModels = deltaFunction.deltaFunctionForSet(ints);

@@ -58,10 +58,10 @@ public class FullBustAlgorithmImpl implements FullBustAlgorithm {
 
         return multiCombinationGenerator;
         /*HashSet<int[]> intSet = new HashSet<int[]>();
-        Combinations ints = new Combinations(q, d);
+        Combinations ints = new Combinations(q, k);
         for (int i = 0; i < q; i++) {
-            int[] array = new int[d];
-            for (int j = 0; j < d; j++) {
+            int[] array = new int[k];
+            for (int j = 0; j < k; j++) {
                 array[j] = i;
             }
             intSet.add(array);
@@ -78,9 +78,9 @@ public class FullBustAlgorithmImpl implements FullBustAlgorithm {
         return new HashSet<>();
     }
 
- /*   public long sizeOfSet(int q, int d) {
-        long factorialN = CombinatoricsUtils.factorial(q + d - 1);
-        long factorialD = CombinatoricsUtils.factorial(d);
+ /*   public long sizeOfSet(int q, int k) {
+        long factorialN = CombinatoricsUtils.factorial(q + k - 1);
+        long factorialD = CombinatoricsUtils.factorial(k);
         long factorialQ = CombinatoricsUtils.factorial(q - 1);
         long result = factorialN / (factorialD * factorialQ);
 
