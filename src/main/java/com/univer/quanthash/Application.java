@@ -65,7 +65,7 @@ public class Application {
     public CommandLineRunner demo() {
         return (args) -> {
             startRandomAndBees();
-            startConstr();
+            //startConstr();
         };
     }
 
@@ -98,15 +98,18 @@ public class Application {
         int q = 8;
         int d = 4;
 
-        while (q <= 256) {
+        while (q <= 9000) {
             d = 4;
-            while (d <= 16 && d <= q / 2) {
+            while (d <= 1200 && d <= q / 2) {
                 DeltaModel randAlg = randAlg(q, d);
                 writeToFile(randFile, q, d, randAlg);
                 DeltaModel randomDelta = adaptiveRandom.randomDelta(q, d);
+                System.out.println("-------rand-------------");
                 writeToFile(randAdapt, q, d, randomDelta);
                 DeltaModel beesAlg = beesAlg(q, d, randomDelta.getDelta());
+                System.out.println("-------bees-------------");
                 writeToFile(beesFile, q, d, beesAlg);
+                System.out.println("-------randAdapt---------");
                 console(q, d, randAlg, beesAlg);
                 d *= 2;
             }
