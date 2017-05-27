@@ -10,16 +10,28 @@ import java.util.Random;
  */
 public class AdaptiveRandom {
 
+    private int scope;
+    private int step;
+
     public DeltaModel randomDelta(int q, int d) {
-        int size = (int)Math.pow(Math.log(q * d) / Math.log(2), 2);
+        scope = 0;
+        step = (int)(Math.log(q)/Math.log(2));
+        int size = (int)Math.pow(Math.log(q * d) / Math.log(2), 2) * 100;
         return randomDeltaByIter(q, d, size);
     }
 
     public DeltaModel randomDeltaByIter(int q, int d, int iterCount) {
         DeltaModel tempDelta = getRandomDelta(q, d);
+        DeltaModel bigTemp;
         DeltaModel minDelta = new DeltaModel(tempDelta.getArray(), tempDelta.getDelta());
         for (int i = 0; i < iterCount; i++) {
             tempDelta = getNewPointByOld(q, d, tempDelta);
+            bigTemp = getNewPointByOld(q, d, tempDelta);
+            if (tempDelta.compareTo(bigTemp) >= 0) {
+                scope -= step;
+            } else {
+                tempDelta = bigTemp;
+            }
             if (minDelta.compareTo(tempDelta) < 0) {
                 minDelta = new DeltaModel(tempDelta.getArray(), tempDelta.getDelta());
             }
@@ -29,7 +41,7 @@ public class AdaptiveRandom {
 
     public DeltaModel getNewPointByOld(int q, int d, DeltaModel deltaModel) {
         int[] array = deltaModel.getArray();
-        int scope = (int)(Math.log(q)/Math.log(2));
+        scope += step;
         int[] result = new int[d];
         for (int i = 0; i < d; i++) {
             int min = array[i] - scope;
