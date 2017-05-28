@@ -14,7 +14,7 @@ public class RandomAlgorithm {
 
     DeltaFunction deltaFunction;
     int size;
-    int max = 500000;
+    int max = 200000;
 
     public RandomAlgorithm() {
         deltaFunction = new DeltaFunction();
@@ -25,8 +25,8 @@ public class RandomAlgorithm {
         DeltaModel resultModel = new DeltaModel(new int[]{0, 0}, 1.0);
         for (int i = 0; i < size; i++) {
             int[] array = nextArray(q, d);
-            DeltaModel deltaModel = deltaFunction.deltaFunction(array);
-            if (resultModel.getDelta() > deltaModel.getDelta()) {
+            DeltaModel deltaModel = new DeltaFunction(q).deltaFunction(array);
+            if (resultModel.getDelta() >= deltaModel.getDelta()) {
                 resultModel = deltaModel;
             }
         }
