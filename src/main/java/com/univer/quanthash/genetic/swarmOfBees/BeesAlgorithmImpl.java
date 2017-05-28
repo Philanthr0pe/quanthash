@@ -62,9 +62,9 @@ public class BeesAlgorithmImpl implements BeesAlgorithm {
         this.d = d;
         startCountOfAreas = (int) (Math.log(q * d) / Math.log(2));
         countOfBees = (int) (startCountOfAreas * Math.log(q));
-        countOfBeesForBest = (int) (0.4 * countOfBees);
+        countOfBeesForBest = (int) (0.5 * countOfBees);
         countOfBeesForNorm = (int) (0.3 * countOfBees);
-        countOfBeesForOthers = (int) (0.3 * countOfBees);
+        countOfBeesForOthers = (int) (0.2 * countOfBees);
         countOfBestAreas = (int) (0.2 * startCountOfAreas) + 1;
         countOfNormAreas = (int) (0.3 * startCountOfAreas) + 1;
         countOfWorstAreas = (int) (countOfBestAreas + countOfNormAreas) / 2;
