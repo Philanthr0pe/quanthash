@@ -38,7 +38,7 @@ public class AdaptiveRandom {
             }
             if (scope >= q-1) {
                 scope = q/2;
-                iterCount *= 0.5;
+                iterCount *= 0.5;//
             }
         }
         return minDelta;
