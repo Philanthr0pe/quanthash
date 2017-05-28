@@ -65,9 +65,9 @@ public class Application {
     @Bean
     public CommandLineRunner demo() {
         return (args) -> {
-            //startRandomAndBees();
+            startRandomAndBees();
             //startConstr();
-            fullAlg();
+            //fullAlg();
         };
     }
 
@@ -116,23 +116,20 @@ public class Application {
         AdaptiveRandom adaptiveRandom = new AdaptiveRandom();
         beesAlgorithm = new BeesAlgorithmImpl();
 
-        int q = 2048;
+        int q = 64;
         int d = 4;
 
         while (q <= 9000) {
-            if (q < 3000) {
-                d = 256;
-            }
-            d = 64;
+            d = 8;
             while (d <= 1200 && d <= q / 2) {
 //                DeltaModel randAlg = randAlg(q, d);
 //                writeToFile(randFile, q, d, randAlg);
-//                DeltaModel randomDelta = adaptiveRandom.randomDelta(q, d);
-//                System.out.printf("q = %d, d = %d \n, %s \n", q, d, randomDelta.toString());
-//                writeToFile(randAdapt, q, d, randomDelta);
-                DeltaModel beesAlg = beesAlg(q, d, 0.3);
-                System.out.println("-------bees-------------");
-                writeToFile(beesFile, q, d, beesAlg);
+                DeltaModel randomDelta = adaptiveRandom.randomDelta(q, d);
+                System.out.printf("q = %d, d = %d \n, %s \n", q, d, randomDelta.toString());
+                writeToFile(randAdapt, q, d, randomDelta);
+//                DeltaModel beesAlg = beesAlg(q, d, 0.3);
+//                System.out.println("-------bees-------------");
+//                writeToFile(beesFile, q, d, beesAlg);
 //                System.out.println("-------randAdapt---------");
 //                console(q, d, randAlg, beesAlg);
                 d *= 2;
