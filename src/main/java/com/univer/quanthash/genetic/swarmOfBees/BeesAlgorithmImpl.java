@@ -70,7 +70,7 @@ public class BeesAlgorithmImpl implements BeesAlgorithm {
         countOfWorstAreas = (int) (countOfBestAreas + countOfNormAreas) / 2;
         sizeOfArea = (int) (Math.log(q) / Math.log(2));
         deltaFunction = new DeltaFunction();
-        this.iterateCount = q * d;
+        this.iterateCount = q*d > 1200 ? 1200 : q * d;
         quality = (int) (0.2 * iterateCount);
 
         this.bests = new HashSet<>();
