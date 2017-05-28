@@ -60,8 +60,7 @@ public class BeesAlgorithmImpl implements BeesAlgorithm {
     private void setParameters(int q, int d) {
         this.q = q;
         this.d = d;
-        startCountOfAreas = (int) Math.pow((Math.log(q * d) / Math.log(2)),2);
-        startCountOfAreas = startCountOfAreas > 500 ? 500 : startCountOfAreas;
+        startCountOfAreas = (int) (Math.log(q * d) / Math.log(2));
         countOfBees = (int) (startCountOfAreas * Math.log(q));
         countOfBeesForBest = (int) (0.5 * countOfBees);
         countOfBeesForNorm = (int) (0.3 * countOfBees);
@@ -123,13 +122,14 @@ public class BeesAlgorithmImpl implements BeesAlgorithm {
         normArea.setScope(sizeOfArea * 2);
         normArea.warmUpBees(deltaModelList.get(1));
         Area worstArea = new Area(countOfBeesForOthers, q);
-        worstArea.setScope(sizeOfArea * 3);
+        worstArea.setScope(q / sizeOfArea);
         worstArea.warmUpBees(deltaModelList.get(2));
 
         bests.add(minModel);
         int iterC = iterateCount;
 
         while (iterC-- != 0) {
+
             sizeOfArea = updateSize(iterC);
             if(iterC%10==0) {
                 bestArea.setScope(sizeOfArea);
@@ -143,6 +143,8 @@ public class BeesAlgorithmImpl implements BeesAlgorithm {
             Set<DeltaModel> scopesAndGetDelta = bestArea.createScopesAndGetDelta();
             scopesAndGetDelta.addAll(normArea.createScopesAndGetDelta());
             scopesAndGetDelta.addAll(worstArea.createScopesAndGetDelta());
+            System.out.println(iterC);
+            System.out.println(scopesAndGetDelta.size());
 
             if (scopesAndGetDelta.size() == 0) {
                 scopesAndGetDelta = bests.stream().collect(Collectors.toSet());
