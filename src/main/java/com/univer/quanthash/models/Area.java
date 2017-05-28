@@ -36,12 +36,14 @@ public class Area{
     }
 
     public Set<DeltaModel> createScopesAndGetDelta() {
-//        DeltaModel maxModel = deltaModel.stream().max(DeltaModel::compareTo).get();
+        DeltaModel maxModel = deltaModel.stream().max(DeltaModel::compareTo).get();
         Set<DeltaModel> result = new HashSet<>();
         for (Bee bee : bees) {
             for (DeltaModel model : deltaModel) {
                 DeltaModel resModel = bee.generateDeltaModel(model);
-                result.add(resModel);
+                if (maxModel.compareTo(resModel) <= 0) {
+                    result.add(resModel);
+                }
             }
         }
         return result;
