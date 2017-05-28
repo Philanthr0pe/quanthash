@@ -129,6 +129,7 @@ public class BeesAlgorithmImpl implements BeesAlgorithm {
         int iterC = iterateCount;
 
         while (iterC-- != 0) {
+            System.out.println(iterC);
 
             sizeOfArea = updateSize(iterC);
             if(iterC%10==0) {
@@ -143,8 +144,8 @@ public class BeesAlgorithmImpl implements BeesAlgorithm {
             Set<DeltaModel> scopesAndGetDelta = bestArea.createScopesAndGetDelta();
             scopesAndGetDelta.addAll(normArea.createScopesAndGetDelta());
             scopesAndGetDelta.addAll(worstArea.createScopesAndGetDelta());
-            System.out.println(iterC);
             System.out.println(scopesAndGetDelta.size());
+
 
             if (scopesAndGetDelta.size() == 0) {
                 scopesAndGetDelta = bests.stream().collect(Collectors.toSet());
@@ -168,7 +169,10 @@ public class BeesAlgorithmImpl implements BeesAlgorithm {
     }
 
     private int updateMinDelta(List<DeltaModel> deltaModels, DeltaModel minModel, int iterateCount) {
-        DeltaModel deltaModel = deltaModels.stream().min(DeltaModel::compareTo).get();
+        DeltaModel deltaModel = null;
+        if (deltaModels.size() != 0) {
+            deltaModel = deltaModels.stream().min(DeltaModel::compareTo).get();
+        }
         if (deltaModel != null && deltaModel.getDelta() < minModel.getDelta()) {
             minModel = deltaModel;
             Bee.bestModel = minModel;
@@ -176,7 +180,10 @@ public class BeesAlgorithmImpl implements BeesAlgorithm {
             quality = (int) (0.2 * iterateCount);
             if (minModel.getDelta() <= minDelta) {
                 iterateCount *= 0.5;
-                minDelta *= 0.5;
+                minDelta *= 0.8;
+                countOfBestAreas *= 0.75;
+                countOfNormAreas *= 0.5;
+                countOfWorstAreas *= 0.5;
             }
             return iterateCount;
         } else {
@@ -203,7 +210,11 @@ public class BeesAlgorithmImpl implements BeesAlgorithm {
     private int updateSize(int iterateCount) {
         if (iterateCount > 0 && this.iterateCount % iterateCount == 0) {
             sizeOfArea = sizeOfArea > 1 ? (int) (sizeOfArea * 0.5) : 1;
+            countOfBestAreas *= 0.5;
+            countOfNormAreas *= 0.5;
+            countOfWorstAreas *= 0.6;
         }
+
 
         return sizeOfArea;
     }
