@@ -127,9 +127,10 @@ public class Application {
                 DeltaModel randomDelta = adaptiveRandom.randomDelta(q, d);
                 System.out.printf("q = %d, d = %d \n, %s \n", q, d, randomDelta.toString());
                 writeToFile(randAdapt, q, d, randomDelta);
-//                DeltaModel beesAlg = beesAlg(q, d, 0.3);
-//                System.out.println("-------bees-------------");
-//                writeToFile(beesFile, q, d, beesAlg);
+                DeltaModel beesAlg = beesAlg(q, d, randomDelta.getDelta());
+                System.out.println("-------bees-------------");
+                System.out.printf("q = %d, d = %d \n, %s \n", q, d, beesAlg.toString());
+                writeToFile(beesFile, q, d, beesAlg);
 //                System.out.println("-------randAdapt---------");
 //                console(q, d, randAlg, beesAlg);
                 d *= 2;
