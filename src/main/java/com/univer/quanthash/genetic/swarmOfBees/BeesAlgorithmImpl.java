@@ -60,7 +60,8 @@ public class BeesAlgorithmImpl implements BeesAlgorithm {
     private void setParameters(int q, int d) {
         this.q = q;
         this.d = d;
-        startCountOfAreas = (int) (Math.log(q * d) / Math.log(2));
+        startCountOfAreas = (int) Math.pow((Math.log(q * d) / Math.log(2)),2);
+        startCountOfAreas = startCountOfAreas > 500 ? 500 : startCountOfAreas;
         countOfBees = (int) (startCountOfAreas * Math.log(q));
         countOfBeesForBest = (int) (0.5 * countOfBees);
         countOfBeesForNorm = (int) (0.3 * countOfBees);
@@ -70,7 +71,7 @@ public class BeesAlgorithmImpl implements BeesAlgorithm {
         countOfWorstAreas = (int) (countOfBestAreas + countOfNormAreas) / 2;
         sizeOfArea = (int) (Math.log(q) / Math.log(2));
         deltaFunction = new DeltaFunction();
-        this.iterateCount = q*d > 1200 ? 1200 : q * d;
+        this.iterateCount = q*d > 500 ? 500 : q * d;
         quality = (int) (0.2 * iterateCount);
 
         this.bests = new HashSet<>();
@@ -133,7 +134,7 @@ public class BeesAlgorithmImpl implements BeesAlgorithm {
             if(iterC%10==0) {
                 bestArea.setScope(sizeOfArea);
                 normArea.setScope(sizeOfArea * 2);
-                worstArea.setScope(sizeOfArea * 3);
+                //worstArea.setScope(sizeOfArea * 3);
             }
             bestArea.setModels(deltaModelsBest);
             normArea.setModels(deltaModelsNorm);

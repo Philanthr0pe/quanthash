@@ -95,11 +95,11 @@ public class Application {
         AdaptiveRandom adaptiveRandom = new AdaptiveRandom();
         beesAlgorithm = new BeesAlgorithmImpl();
 
-        int q = 8;
+        int q = 256;
         int d = 4;
 
         while (q <= 9000) {
-            d = 4;
+            d = 32;
             while (d <= 1200 && d <= q / 2) {
                 DeltaModel randAlg = randAlg(q, d);
                 writeToFile(randFile, q, d, randAlg);
