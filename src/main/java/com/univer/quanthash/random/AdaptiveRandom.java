@@ -16,7 +16,7 @@ public class AdaptiveRandom {
     public DeltaModel randomDelta(int q, int d) {
         scope = 0;
         step = (int)(Math.log(q)/Math.log(2));
-        int size = (int)Math.pow(Math.log(q * d) / Math.log(2), 2) * 100;
+        int size = (int)Math.pow(Math.log(q * d) / Math.log(2), 2) * 10;
         return randomDeltaByIter(q, d, size);
     }
 
@@ -27,13 +27,18 @@ public class AdaptiveRandom {
         for (int i = 0; i < iterCount; i++) {
             tempDelta = getNewPointByOld(q, d, tempDelta);
             bigTemp = getNewPointByOld(q, d, tempDelta);
-            if (tempDelta.compareTo(bigTemp) >= 0) {
+            if (tempDelta.compareTo(bigTemp) <= 0) {
                 scope -= step;
             } else {
                 tempDelta = bigTemp;
             }
-            if (minDelta.compareTo(tempDelta) < 0) {
+            if (minDelta.compareTo(tempDelta) >= 0) {
                 minDelta = new DeltaModel(tempDelta.getArray(), tempDelta.getDelta());
+                //System.out.println("min = " + minDelta);
+            }
+            if (scope >= q-1) {
+                scope = q/2;
+                iterCount *= 0.5;
             }
         }
         return minDelta;
@@ -50,7 +55,7 @@ public class AdaptiveRandom {
             max = max > q-1 ? q-1 : max;
             result[i] = new Random().ints(min, max).findFirst().getAsInt();
         }
-        return new DeltaFunction(q).deltaFunction(array);
+        return new DeltaFunction(q).deltaFunction(result);
     }
 
 
