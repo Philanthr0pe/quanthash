@@ -2,6 +2,7 @@ package com.univer.quanthash;
 
 import com.univer.quanthash.constructive.ConstructiveAlgorithmImpl;
 import com.univer.quanthash.fullbust.FullBustAlgorithm;
+import com.univer.quanthash.fullbust.FullBustAlgorithmImpl;
 import com.univer.quanthash.genetic.swarmOfBees.BeesAlgorithm;
 import com.univer.quanthash.genetic.swarmOfBees.BeesAlgorithmImpl;
 import com.univer.quanthash.models.DeltaModel;
@@ -64,9 +65,29 @@ public class Application {
     @Bean
     public CommandLineRunner demo() {
         return (args) -> {
-            startRandomAndBees();
+            //startRandomAndBees();
             //startConstr();
+            fullAlg();
         };
+    }
+
+    public void fullAlg() {
+        fullBustAlgorithm = new FullBustAlgorithmImpl();
+        int q = 64;
+        int d = 4;
+        while(q <= 128){
+            d = 4;
+            while (d <= 16 && d <= q/2) {
+                HashSet<DeltaModel> deltaModels = fullBustAlgorithm.setOfDeltaFullBust(q, d);
+                DeltaModel model = deltaModels.stream().min(DeltaModel::compareTo).get();
+                System.out.println("q = " + q + " ; d = " + d);
+                System.out.println(model);
+                writeToFile(fullFile, q, d, model);
+                d*=2;
+            }
+            q *= 2;
+        }
+
     }
 
     public void startConstr() {
@@ -95,22 +116,25 @@ public class Application {
         AdaptiveRandom adaptiveRandom = new AdaptiveRandom();
         beesAlgorithm = new BeesAlgorithmImpl();
 
-        int q = 256;
+        int q = 2048;
         int d = 4;
 
         while (q <= 9000) {
-            d = 32;
+            if (q < 3000) {
+                d = 256;
+            }
+            d = 64;
             while (d <= 1200 && d <= q / 2) {
-                DeltaModel randAlg = randAlg(q, d);
-                writeToFile(randFile, q, d, randAlg);
-                DeltaModel randomDelta = adaptiveRandom.randomDelta(q, d);
-                System.out.println("-------rand-------------");
-                writeToFile(randAdapt, q, d, randomDelta);
-                DeltaModel beesAlg = beesAlg(q, d, randomDelta.getDelta());
+//                DeltaModel randAlg = randAlg(q, d);
+//                writeToFile(randFile, q, d, randAlg);
+//                DeltaModel randomDelta = adaptiveRandom.randomDelta(q, d);
+//                System.out.printf("q = %d, d = %d \n, %s \n", q, d, randomDelta.toString());
+//                writeToFile(randAdapt, q, d, randomDelta);
+                DeltaModel beesAlg = beesAlg(q, d, 0.3);
                 System.out.println("-------bees-------------");
                 writeToFile(beesFile, q, d, beesAlg);
-                System.out.println("-------randAdapt---------");
-                console(q, d, randAlg, beesAlg);
+//                System.out.println("-------randAdapt---------");
+//                console(q, d, randAlg, beesAlg);
                 d *= 2;
             }
             q *= 2;
