@@ -1,5 +1,8 @@
 package com.univer.quanthash.constructive;
 
+import com.univer.quanthash.DeltaFunction;
+import com.univer.quanthash.models.DeltaModel;
+import org.apache.commons.math3.primes.Primes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,23 +19,28 @@ public class ConstructiveAlgorithmImpl {
 
     private static final Logger log = LoggerFactory.getLogger(ConstructiveAlgorithmImpl.class);
 
-    public BigInteger function(int q, double eps) {
+    private int realQ;
 
-        eps = round(pow(-log(log(q)/log(2))/log(eps), -1) * 10000d) / 10000d;
-        log.info("eps = " + eps);
-        BigInteger tSize = generateTSetSize(q, eps);
+    public DeltaModel function(int q, double eps) {
+        q  = Primes.nextPrime(q);
+        realQ = q;
+        //log.info("prime q = " + q);
+        //eps = pow(-log(log(q)/log(2))/log(eps), -1);
+        ////log.info("eps = " + eps);
+        List<Integer> tList = generateTSetSize(q, eps);
         //tList = tList.stream().distinct().collect(Collectors.toList());
-        /*log.info("Size = " + tList.size());
+        //log.info("Size = " + tList.size());
         //tList.stream().sorted().forEach(s -> System.out.print(s+", "));
         int[] ints = tList.stream().mapToInt(i -> i).toArray();
-
-        DeltaFunction.q = q;
-        DeltaModel result = new DeltaFunction().deltaFunction(ints);
+        DeltaModel result = new DeltaFunction(q).deltaFunction(ints);
         double delta = pow(log(q)/log(2), -eps);
         log.info("delta = " + delta);
-        log.info("eps = " + -pow(log(log(q)/log(2))/log(delta), -1));*/
+        if (result.getDelta() > delta) {
+            System.err.println("modelDetal > delta");
+        }
+//        log.info("eps = " + -pow(log(log(q)/log(2))/log(delta), -1));
 
-        return tSize;
+        return result;
     }
 
 
@@ -60,13 +68,22 @@ public class ConstructiveAlgorithmImpl {
     }
 
 
-    public BigInteger generateTSetSize(int q, double eps) {
+    public List<Integer> generateTSetSize(int q, double eps) {
         List<Integer> primeSet = generatePrimeSet(q, eps);
         List<Integer> sSet = generateSSet(q, eps);
         BigInteger qBig = new BigInteger(String.valueOf(q));
         ArrayList<Integer> result = new ArrayList<>(sSet.size()*primeSet.size());
-        return BigInteger.valueOf(sSet.size()*primeSet.size());
+        for (Integer integer : sSet) {
+            for (Integer prime : primeSet) {
+                BigInteger bigInteger = BigInteger.valueOf(prime).modInverse(BigInteger.valueOf(q));
+                result.add(bigInteger.intValue()*integer);
+                //System.out.println(bigInteger.intValue()*integer);
+            }
+        }
+        return result;
     }
 
-
+    public int getRealQ() {
+        return realQ;
+    }
 }

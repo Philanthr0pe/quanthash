@@ -64,7 +64,7 @@ public class FullBustAlgorithmImplTest {
             System.out.println(Arrays.toString(set.toArray()));
             List<Integer> intArr = set.stream().map(i -> i += plus).collect(Collectors.toList());
             collect.add(intArr);
-            for (int i = 0; i < d; i++) {
+            for (int i = 0; i < k; i++) {
                 ArrayList<Integer> clone = new ArrayList<>(set);
                 clone.set(i, set.get(i) + plus);
                 clone.sort(Integer::compareTo);

@@ -2,7 +2,6 @@ package com.univer.quanthash.random;
 
 import com.univer.quanthash.DeltaFunction;
 import com.univer.quanthash.models.DeltaModel;
-import org.apache.commons.math3.util.CombinatoricsUtils;
 
 import java.util.HashSet;
 import java.util.Random;
@@ -15,6 +14,7 @@ public class RandomAlgorithm {
 
     DeltaFunction deltaFunction;
     int size;
+    int max = 200000;
 
     public RandomAlgorithm() {
         deltaFunction = new DeltaFunction();
@@ -22,30 +22,25 @@ public class RandomAlgorithm {
 
     public DeltaModel randomDelta(int q, int d) {
         size = sizeOfSet(q, d);
-        Set<int[]> ints = generateRandomArrs(q, d, size);
-        deltaFunction = new DeltaFunction(q);
-        DeltaModel resultModel = null;
-        double min = 10d;
-        for (int[] anInt : ints) {
-            DeltaModel deltaModel = deltaFunction.deltaFunction(anInt);
-            if (min > deltaModel.getDelta()) {
+        DeltaModel resultModel = new DeltaModel(new int[]{0, 0}, 1.0);
+        for (int i = 0; i < size; i++) {
+            int[] array = nextArray(q, d);
+            DeltaModel deltaModel = new DeltaFunction(q).deltaFunction(array);
+            if (resultModel.getDelta() >= deltaModel.getDelta()) {
                 resultModel = deltaModel;
             }
         }
         return resultModel;
     }
 
+
+
     public int sizeOfSet(int q, int d) {
-        int f = q+d-1;
-        if (f > 20) {
-            return (int) (800 * Math.log(q)/Math.log(2));
+        int f = q*d;
+        if (f > max) {
+            return max;
         }
-        long factorialN = CombinatoricsUtils.factorial(f);
-        long factorialD = CombinatoricsUtils.factorial(d);
-        long factorialQ = CombinatoricsUtils.factorial(q-1);
-        long result = factorialN / (factorialD * factorialQ);
-        result /= 10;
-        return (int)result;
+        return f;
     }
 
     public Set<int[]> generateRandomArrs(int q, int d, int size) {
@@ -59,5 +54,13 @@ public class RandomAlgorithm {
             ints.add(array);
         }
         return ints;
+    }
+
+    public int[] nextArray(int q, int d) {
+        int[] array = new int[d];
+        for (int j = 0; j < d; j++) {
+            array[j] =  new Random().nextInt(q);
+        }
+        return array;
     }
 }
