@@ -73,7 +73,7 @@ public class Application {
     @Bean
     public CommandLineRunner demo() {
         return (args) -> {
-            String[] aStrings = {"64","128","256","512","1024","2048"};
+            String[] aStrings = {"128","512","2048"};
             ArrayList<Collection<RunResult>> collections = new ArrayList<>();
             for (int i = 0; i < aStrings.length; i++) {
                 Options opt = new OptionsBuilder()
@@ -109,7 +109,7 @@ public class Application {
     }
 
     private String[] generateB(int b) {
-        int start = 8;
+        int start = 16;
         int size = (int) (Math.log(b) / Math.log(2) - Math.log(start) / Math.log(2));
         String[] result = new String[size];
         for (int i = 0; i < size; i++) {
