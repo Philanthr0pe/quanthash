@@ -43,7 +43,6 @@ public class FullBustAlgorithmImpl implements FullBustAlgorithm {
                 deltaRepository.save(deltaModel);
                 System.out.println(deltaModel);
                 min = deltaModel.getDelta();
-
             }
         }
         return hashSet;

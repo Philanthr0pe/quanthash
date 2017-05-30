@@ -1,5 +1,6 @@
 package com.univer.quanthash;
 
+import com.univer.quanthash.constructive.ConstructiveAlgorithmImpl;
 import com.univer.quanthash.dao.DeltaRepository;
 import com.univer.quanthash.fullbust.FullBustAlgorithm;
 import com.univer.quanthash.genetic.swarmOfBees.BeesAlgorithm;
@@ -18,6 +19,7 @@ import org.springframework.context.annotation.PropertySource;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.math.BigInteger;
 import java.util.HashSet;
 
 
@@ -31,6 +33,12 @@ public class Application {
     @Autowired
     FullBustAlgorithm fullBustAlgorithm;
 
+    RandomAlgorithm randomAlgorithm;
+
+    BeesAlgorithm beesAlgorithm;
+
+    ConstructiveAlgorithmImpl constructiveAlgorithm;
+
     @Value("${random}")
     String randFile;
 
@@ -41,9 +49,7 @@ public class Application {
     String fullFile;
 
 
-    RandomAlgorithm randomAlgorithm;
 
-    BeesAlgorithm beesAlgorithm;
 
 
     private static final Logger log = LoggerFactory.getLogger(Application.class);
@@ -57,22 +63,27 @@ public class Application {
         return (args) -> {
             randomAlgorithm = new RandomAlgorithm();
             beesAlgorithm = new BeesAlgorithmImpl(500, 1000);
+            constructiveAlgorithm = new ConstructiveAlgorithmImpl();
 
-            int q = 8;
+            int q = 32;
             int d = 4;
+            double eps = 1.0;
 
-            while (q <= 256) {
-                d = 4;
-                while (d <= 16 && d <= q / 2) {
+            while (q <= 9000) {
+                eps = 1.0;
+                while (eps > 0) {
                     /*DeltaModel randAlg = randAlg(q, d);
                     writeToFile(randFile, q, d, randAlg);
                     DeltaModel beesAlg = beesAlg(q, d, randAlg.getDelta());
                     writeToFile(beesFile, q, d, beesAlg);
-                    console(q, d, randAlg, beesAlg);*/
+                    console(q, d, randAlg, beesAlg);
                     DeltaModel fullAlg = fullAlg(q, d).stream().min(DeltaModel::compareTo).get();
                     writeToFile(fullFile, q, d, fullAlg);
-                    console(q, d, fullAlg);
-                    d *= 2;
+                    console(q, d, fullAlg);*/
+                    BigInteger function = constructiveAlgorithm.function(q, eps);
+                    System.out.printf("q = " + q + " ; eps = " + eps+ "\n");
+                    System.out.println(function);
+                    eps -= 0.05;
                 }
                 q *= 2;
             }
@@ -99,7 +110,7 @@ public class Application {
         return deltaModels;
     }
 
-    public boolean writeToFile(String filename, int q, int d, DeltaModel deltaModel) {
+    public boolean writeToFile(String filename, int q, int d, Object deltaModel) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename, true))) {
             writer.write("q = " + q + " ; d = " + d + "\n");
             writer.write(deltaModel.toString() + "\n");
